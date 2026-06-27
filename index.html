@@ -1,0 +1,1599 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Insider Cash Consumer Demo</title>
+    <style>
+      :root {
+        --pink: #ff2d8f;
+        --pink-dark: #e91b7d;
+        --pink-soft: #fff0f7;
+        --bg: #f5f5f7;
+        --surface: #ffffff;
+        --surface-soft: #fbfbfd;
+        --text: #1d1d1f;
+        --muted: rgba(29, 29, 31, 0.64);
+        --faint: rgba(29, 29, 31, 0.14);
+        --line: rgba(29, 29, 31, 0.1);
+        --green: #16a34a;
+        --red: #ff3b30;
+        --amber: #b7791f;
+        --shadow: rgba(0, 0, 0, 0.1) 0 18px 48px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+        letter-spacing: -0.18px;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .app {
+        display: grid;
+        grid-template-columns: 276px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        padding: 24px 18px;
+        background: rgba(255, 255, 255, 0.78);
+        border-right: 1px solid rgba(29, 29, 31, 0.08);
+        backdrop-filter: saturate(180%) blur(24px);
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 4px;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 11px;
+        background: var(--pink);
+        color: white;
+        display: grid;
+        place-items: center;
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: -2px;
+      }
+
+      .brand-text {
+        font-size: 19px;
+        font-weight: 650;
+        letter-spacing: -0.42px;
+      }
+
+      .nav-label {
+        margin: 2px 4px 10px;
+        color: rgba(29, 29, 31, 0.48);
+        font-size: 13px;
+      }
+
+      .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .nav-section {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .nav-item,
+      .nav-parent {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        color: rgba(29, 29, 31, 0.78);
+        border-radius: 10px;
+        min-height: 42px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-align: left;
+        font-size: 15px;
+      }
+
+      .nav-item:hover,
+      .nav-parent:hover {
+        background: rgba(29, 29, 31, 0.05);
+      }
+
+      .nav-item.active {
+        color: var(--pink);
+        background: var(--pink-soft);
+        font-weight: 600;
+      }
+
+      .nav-icon {
+        width: 20px;
+        display: inline-grid;
+        place-items: center;
+        color: currentColor;
+      }
+
+      .nav-children {
+        margin-left: 18px;
+        padding-left: 14px;
+        border-left: 1px solid rgba(29, 29, 31, 0.09);
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .account-card {
+        margin-top: auto;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 8px;
+      }
+
+      .avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: var(--pink);
+        color: white;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+      }
+
+      .account-meta {
+        min-width: 0;
+      }
+
+      .account-name {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .account-email {
+        color: var(--muted);
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .main {
+        min-width: 0;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        height: 64px;
+        padding: 10px 32px;
+        background: rgba(245, 245, 247, 0.74);
+        border-bottom: 1px solid rgba(29, 29, 31, 0.08);
+        backdrop-filter: saturate(180%) blur(22px);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .token-selector {
+        position: relative;
+        width: min(420px, 44vw);
+      }
+
+      .token-button {
+        width: 100%;
+        height: 42px;
+        border: 0;
+        border-radius: 999px;
+        background: var(--surface);
+        padding: 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.08);
+      }
+
+      .token-dot {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--pink);
+        color: white;
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .token-copy {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .token-symbol {
+        font-weight: 650;
+      }
+
+      .token-name {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .chevron {
+        margin-left: auto;
+        color: rgba(29, 29, 31, 0.44);
+      }
+
+      .token-menu {
+        position: absolute;
+        inset: 48px 0 auto 0;
+        display: none;
+        padding: 8px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: var(--shadow);
+        backdrop-filter: saturate(180%) blur(18px);
+      }
+
+      .token-menu.open {
+        display: block;
+      }
+
+      .menu-label {
+        color: rgba(29, 29, 31, 0.46);
+        font-size: 12px;
+        padding: 7px 10px;
+      }
+
+      .token-option {
+        width: 100%;
+        height: 44px;
+        border: 0;
+        border-radius: 10px;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 10px;
+        text-align: left;
+      }
+
+      .token-option:hover,
+      .token-option.active {
+        background: var(--pink-soft);
+      }
+
+      .top-spacer {
+        flex: 1;
+      }
+
+      .pill {
+        height: 38px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 45, 143, 0.22);
+        background: rgba(255, 255, 255, 0.78);
+        color: var(--pink);
+        padding: 0 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .btn {
+        height: 38px;
+        border-radius: 999px;
+        border: 0;
+        padding: 0 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-weight: 600;
+      }
+
+      .btn-primary {
+        background: var(--pink);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--pink-dark);
+      }
+
+      .btn-secondary {
+        color: var(--pink);
+        background: var(--pink-soft);
+      }
+
+      .btn-ghost {
+        color: var(--text);
+        background: rgba(29, 29, 31, 0.06);
+      }
+
+      .btn-danger {
+        color: white;
+        background: var(--red);
+      }
+
+      .content {
+        padding: 44px 40px 64px;
+        max-width: 1220px;
+      }
+
+      .page {
+        display: none;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 24px;
+        margin-bottom: 28px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 42px;
+        line-height: 1.1;
+        font-weight: 650;
+        letter-spacing: -1.4px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 24px;
+        line-height: 1.14;
+        font-weight: 650;
+        letter-spacing: -0.48px;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 650;
+      }
+
+      .subtle {
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.45;
+      }
+
+      .surface {
+        background: var(--surface);
+        border-radius: 18px;
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.05);
+      }
+
+      .surface.pad {
+        padding: 24px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+        gap: 18px;
+      }
+
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 160px minmax(0, 1fr) auto;
+        gap: 18px;
+        min-height: 64px;
+        align-items: center;
+        border-top: 1px solid var(--line);
+      }
+
+      .form-row:first-child {
+        border-top: 0;
+      }
+
+      .label {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .value {
+        font-size: 16px;
+        font-weight: 520;
+      }
+
+      .input {
+        width: 100%;
+        height: 46px;
+        border: 0;
+        border-radius: 12px;
+        background: var(--surface-soft);
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.08);
+        padding: 0 14px;
+        color: var(--text);
+        outline: none;
+      }
+
+      .input:focus {
+        box-shadow: inset 0 0 0 2px rgba(255, 45, 143, 0.52);
+      }
+
+      .segmented {
+        display: inline-grid;
+        grid-auto-flow: column;
+        gap: 4px;
+        padding: 4px;
+        border-radius: 999px;
+        background: rgba(29, 29, 31, 0.06);
+      }
+
+      .segment {
+        border: 0;
+        border-radius: 999px;
+        min-width: 92px;
+        height: 34px;
+        background: transparent;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .segment.active {
+        background: var(--pink);
+        color: white;
+      }
+
+      .plan-copy {
+        margin-top: 18px;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+      }
+
+      .cost {
+        font-size: 34px;
+        line-height: 1;
+        font-weight: 650;
+        letter-spacing: -1px;
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+      }
+
+      .table th {
+        color: rgba(29, 29, 31, 0.5);
+        font-size: 12px;
+        font-weight: 650;
+        text-align: left;
+        padding: 15px 16px;
+      }
+
+      .table td {
+        padding: 17px 16px;
+        border-top: 1px solid var(--line);
+        vertical-align: middle;
+        font-size: 14px;
+      }
+
+      .token-cell {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+      }
+
+      .mini-token {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .mini-token.pink {
+        background: var(--pink);
+      }
+
+      .mini-token.orange {
+        background: #f7931a;
+      }
+
+      .mini-token.gray {
+        background: #627eea;
+      }
+
+      .mini-token.purple {
+        background: #9945ff;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        height: 26px;
+        border-radius: 999px;
+        padding: 0 10px;
+        font-size: 12px;
+        font-weight: 650;
+        background: rgba(29, 29, 31, 0.06);
+      }
+
+      .tag.green {
+        color: var(--green);
+        background: rgba(22, 163, 74, 0.1);
+      }
+
+      .tag.pink {
+        color: var(--pink);
+        background: var(--pink-soft);
+      }
+
+      .tag.amber {
+        color: var(--amber);
+        background: rgba(245, 158, 11, 0.16);
+      }
+
+      .row-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .text-btn {
+        border: 0;
+        background: transparent;
+        color: var(--pink);
+        font-weight: 650;
+        padding: 4px 2px;
+      }
+
+      .text-btn.muted {
+        color: var(--muted);
+      }
+
+      .text-btn.danger {
+        color: var(--red);
+      }
+
+      .packages {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .package {
+        min-height: 108px;
+        border: 0;
+        border-radius: 16px;
+        background: var(--surface-soft);
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.08);
+        padding: 16px;
+        text-align: left;
+      }
+
+      .package.active {
+        background: var(--pink-soft);
+        box-shadow: inset 0 0 0 2px rgba(255, 45, 143, 0.42);
+      }
+
+      .package strong {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+
+      .package span {
+        color: var(--muted);
+      }
+
+      .hero-balance {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .balance-number {
+        font-size: 58px;
+        line-height: 0.98;
+        font-weight: 650;
+        letter-spacing: -2px;
+      }
+
+      .balance-unit {
+        color: var(--pink);
+      }
+
+      .identity {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding-bottom: 22px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .identity .avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+      }
+
+      .proof-list {
+        overflow: auto;
+      }
+
+      .exchange-mark {
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        display: grid;
+        place-items: center;
+        background: var(--surface-soft);
+        color: var(--pink);
+        font-weight: 800;
+      }
+
+      .add-row {
+        margin-top: 14px;
+        width: 100%;
+        min-height: 58px;
+        border: 1px dashed rgba(29, 29, 31, 0.18);
+        border-radius: 16px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.35);
+        font-weight: 650;
+      }
+
+      .rules {
+        display: grid;
+        gap: 10px;
+      }
+
+      .rule {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        min-height: 44px;
+        align-items: center;
+        padding: 0 4px;
+        border-top: 1px solid var(--line);
+      }
+
+      .rule:first-child {
+        border-top: 0;
+      }
+
+      .placeholder {
+        min-height: 520px;
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .toast {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        z-index: 30;
+        min-width: 280px;
+        border-radius: 16px;
+        background: rgba(29, 29, 31, 0.92);
+        color: white;
+        padding: 14px 16px;
+        box-shadow: var(--shadow);
+        transform: translateY(18px);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.22s ease;
+      }
+
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        display: none;
+        place-items: center;
+        background: rgba(0, 0, 0, 0.22);
+        backdrop-filter: blur(8px);
+      }
+
+      .modal-backdrop.open {
+        display: grid;
+      }
+
+      .modal {
+        width: min(520px, calc(100vw - 36px));
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: var(--shadow);
+        padding: 24px;
+      }
+
+      .modal-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .icon-button {
+        width: 34px;
+        height: 34px;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(29, 29, 31, 0.06);
+      }
+
+      .modal-fields {
+        display: grid;
+        gap: 12px;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .auth-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: var(--bg);
+      }
+
+      .auth-screen.hidden {
+        display: none;
+      }
+
+      .auth-panel {
+        width: min(420px, 100%);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shadow);
+        padding: 28px;
+      }
+
+      .auth-panel .brand {
+        padding: 0;
+        margin-bottom: 22px;
+      }
+
+      .auth-error {
+        min-height: 20px;
+        margin-top: 10px;
+        color: var(--red);
+        font-size: 13px;
+      }
+
+      @media (max-width: 980px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: relative;
+          height: auto;
+        }
+
+        .content {
+          padding: 28px 18px 48px;
+        }
+
+        .topbar {
+          padding: 10px 18px;
+        }
+
+        .token-selector {
+          width: min(100%, 380px);
+        }
+
+        .grid-2,
+        .packages {
+          grid-template-columns: 1fr;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+          gap: 8px;
+          padding: 15px 0;
+        }
+
+        .hero-balance {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="auth-screen" id="authScreen">
+      <form class="auth-panel" id="authForm">
+        <div class="brand">
+          <div class="brand-mark">↗</div>
+          <div class="brand-text">INSIDER CASH</div>
+        </div>
+        <h1 style="font-size: 34px">Demo Access</h1>
+        <p class="subtle">Enter the demo password to continue.</p>
+        <div style="height: 18px"></div>
+        <input class="input" id="passwordInput" type="password" placeholder="Password" autocomplete="current-password" autofocus />
+        <div class="auth-error" id="authError"></div>
+        <button class="btn btn-primary" type="submit" style="width: 100%; margin-top: 8px">Enter Demo</button>
+      </form>
+    </div>
+
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">↗</div>
+          <div class="brand-text">INSIDER CASH</div>
+        </div>
+
+        <nav>
+          <div class="nav-label">Navigation</div>
+          <div class="nav">
+            <button class="nav-item" data-page="overview"><span class="nav-icon">▦</span>CEX Overview</button>
+            <div class="nav-section">
+              <button class="nav-parent"><span class="nav-icon">CEX</span>CEX Monitoring<span class="chevron">⌄</span></button>
+              <div class="nav-children">
+                <button class="nav-item" data-page="monitoring"><span class="nav-icon">≋</span>Liquidity</button>
+                <button class="nav-item" data-page="monitoring"><span class="nav-icon">◎</span>KPI</button>
+              </div>
+            </div>
+            <button class="nav-item active" data-page="tokens"><span class="nav-icon">◉</span>My Tokens</button>
+            <div class="nav-section">
+              <button class="nav-parent"><span class="nav-icon">⚙</span>Account<span class="chevron">⌄</span></button>
+              <div class="nav-children">
+                <button class="nav-item" data-page="profile"><span class="nav-icon">☻</span>Profile</button>
+                <button class="nav-item" data-page="proof"><span class="nav-icon">⌁</span>API & TEE Proof</button>
+                <button class="nav-item" data-page="credits"><span class="nav-icon">◎</span>Credits</button>
+                <button class="nav-item" data-page="points"><span class="nav-icon">✦</span>Points</button>
+                <button class="nav-item" data-page="kpi"><span class="nav-icon">☷</span>KPI Configuration</button>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <div class="account-card">
+          <div class="avatar">GG</div>
+          <div class="account-meta">
+            <div class="account-name">GG</div>
+            <div class="account-email">gg@renalabs.xyz</div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="token-selector">
+            <button class="token-button" id="tokenButton" type="button">
+              <span class="token-dot" id="tokenDot">N</span>
+              <span class="token-copy">
+                <span class="token-symbol" id="tokenSymbol">NEX</span>
+                <span class="token-name" id="tokenName">Nexpace</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </button>
+            <div class="token-menu" id="tokenMenu">
+              <div class="menu-label">Unlocked tokens</div>
+              <div id="tokenOptions"></div>
+            </div>
+          </div>
+          <div class="top-spacer"></div>
+          <div class="pill">◉ <span id="creditsPill">12 Credits</span></div>
+          <button class="btn btn-primary" type="button" data-open-modal="buyCredits">Buy</button>
+          <button class="icon-button" type="button" data-page-button="profile">GG</button>
+        </header>
+
+        <div class="content">
+          <section class="page" id="page-overview">
+            <div class="page-header">
+              <div>
+                <h1>Overview</h1>
+                <div class="subtle"><span class="current-token">NEX · Nexpace</span></div>
+              </div>
+            </div>
+            <div class="surface placeholder">
+              <div>
+                <h2>Overview is intentionally out of scope for this demo.</h2>
+                <p class="subtle">The selected token still updates globally from the top search box.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="page-monitoring">
+            <div class="page-header">
+              <div>
+                <h1>CEX Monitoring</h1>
+                <div class="subtle"><span class="current-token">NEX · Nexpace</span></div>
+              </div>
+            </div>
+            <div class="surface placeholder">
+              <div>
+                <h2>Monitoring is intentionally out of scope for this demo.</h2>
+                <p class="subtle">This page keeps the current product behavior later.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="page active" id="page-tokens">
+            <div class="page-header">
+              <div>
+                <h1>My Tokens</h1>
+                <div class="subtle">Buy token analysis access and manage active tokens.</div>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="surface pad">
+                <h2>Buy Token Analysis</h2>
+                <p class="subtle">Search a token, choose a plan, then unlock it with credits.</p>
+                <div style="height: 18px"></div>
+                <input class="input" id="unlockSearch" value="SOL · Solana" aria-label="Search token to unlock" />
+                <div style="height: 18px"></div>
+                <div class="segmented" id="planSegments">
+                  <button class="segment" data-plan="1 Day">1 Day</button>
+                  <button class="segment" data-plan="2 Weeks">2 Weeks</button>
+                  <button class="segment active" data-plan="Pro">Pro</button>
+                </div>
+                <div class="plan-copy">
+                  <div class="cost"><span id="planCost">12</span> <span class="balance-unit">credits</span></div>
+                </div>
+                <p class="subtle" id="planDesc">1 month access + 1 month history.</p>
+                <div style="height: 18px"></div>
+                <button class="btn btn-primary" type="button" id="buyAnalysis">Buy Analysis</button>
+              </div>
+
+              <div class="surface pad">
+                <h2>Active Token List</h2>
+                <p class="subtle">Only active tokens appear in the top token selector.</p>
+                <div style="height: 12px"></div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Token</th>
+                      <th>Plan</th>
+                      <th>Expires</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="activeTokenRows"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="page-profile">
+            <div class="page-header">
+              <div>
+                <h1>Profile</h1>
+                <div class="subtle">Manage identity, wallet, and passkeys.</div>
+              </div>
+            </div>
+            <div class="surface pad">
+              <div class="identity">
+                <div class="avatar">GG</div>
+                <div>
+                  <h2>GG</h2>
+                  <div class="subtle">gg@renalabs.xyz · Verified</div>
+                </div>
+                <div class="top-spacer"></div>
+                <button class="btn btn-secondary" type="button" data-toast="Profile editing is ready for the real app.">Edit Profile</button>
+              </div>
+              <div class="form-row">
+                <div class="label">Name</div>
+                <div class="value">GG</div>
+                <button class="text-btn" type="button" data-toast="Name edit clicked.">Edit</button>
+              </div>
+              <div class="form-row">
+                <div class="label">Email</div>
+                <div class="value">gg@renalabs.xyz <span class="tag green">Verified</span></div>
+                <button class="text-btn muted" type="button">Primary</button>
+              </div>
+              <div class="form-row">
+                <div class="label">Wallet Address</div>
+                <div class="value">0x8f...21A9</div>
+                <button class="text-btn" type="button" data-toast="Wallet change flow opened.">Change Wallet</button>
+              </div>
+              <div class="form-row">
+                <div class="label">Passkey</div>
+                <div class="value">Enabled <span class="tag pink">Last used today</span></div>
+                <div class="row-actions">
+                  <button class="text-btn" type="button" data-toast="Manage passkey clicked.">Manage</button>
+                  <button class="text-btn" type="button" data-toast="Add passkey clicked.">Add</button>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="label">Security</div>
+                <div class="value">Last sign-in Jun 27, 2026</div>
+                <button class="text-btn muted" type="button">Healthy</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="page-proof">
+            <div class="page-header">
+              <div>
+                <h1>API & TEE Proof</h1>
+                <div class="subtle">Connect exchange accounts and generate onchain proof for verified analysis.</div>
+              </div>
+              <button class="btn btn-primary" type="button" data-open-modal="exchange">Add Exchange</button>
+            </div>
+            <div class="surface pad proof-list">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Exchange</th>
+                    <th>Account Name</th>
+                    <th>API Status</th>
+                    <th>TEE Proof</th>
+                    <th>Last Updated</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="exchangeRows"></tbody>
+              </table>
+              <button class="add-row" type="button" data-open-modal="exchange">+ Add Exchange Account</button>
+            </div>
+          </section>
+
+          <section class="page" id="page-credits">
+            <div class="page-header">
+              <div>
+                <h1>Credits</h1>
+                <div class="subtle">Credits are used to buy token analysis access.</div>
+              </div>
+              <button class="btn btn-primary" type="button" data-open-modal="buyCredits">Buy Credits</button>
+            </div>
+            <div class="stack">
+              <div class="surface pad hero-balance">
+                <div>
+                  <div class="balance-number"><span id="creditsBalance">12</span> <span class="balance-unit">Credits</span></div>
+                  <div class="subtle">Available balance</div>
+                </div>
+                <div class="segmented">
+                  <button class="segment active">Stripe</button>
+                  <button class="segment">Crypto</button>
+                </div>
+              </div>
+              <div class="surface pad">
+                <h2>Buy Credits</h2>
+                <div style="height: 16px"></div>
+                <div class="packages" id="packages">
+                  <button class="package" data-credits="10" data-price="$9"><strong>10 Credits</strong><span>$9</span></button>
+                  <button class="package active" data-credits="30" data-price="$24"><strong>30 Credits</strong><span>$24</span></button>
+                  <button class="package" data-credits="100" data-price="$69"><strong>100 Credits</strong><span>$69</span></button>
+                  <button class="package" data-credits="0" data-price="Custom"><strong>Custom</strong><span>Choose amount</span></button>
+                </div>
+                <div style="height: 16px"></div>
+                <button class="btn btn-primary" type="button" id="purchasePackage">Purchase Selected</button>
+              </div>
+              <div class="surface pad">
+                <h2>Credit History</h2>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Type</th>
+                      <th>Detail</th>
+                      <th>Amount</th>
+                      <th>Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody id="creditHistoryRows"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="page-points">
+            <div class="page-header">
+              <div>
+                <h1>Points</h1>
+                <div class="subtle">Points record contribution and reputation. They are not spendable credits.</div>
+              </div>
+            </div>
+            <div class="stack">
+              <div class="surface pad">
+                <div class="balance-number">1,240 <span class="balance-unit">Points</span></div>
+                <div class="subtle">Contribution record</div>
+              </div>
+              <div class="surface pad">
+                <h2>Points Rules</h2>
+                <div style="height: 14px"></div>
+                <div class="rules">
+                  <div class="rule"><span>Connect exchange API</span><strong>+100</strong></div>
+                  <div class="rule"><span>Generate TEE proof</span><strong>+250</strong></div>
+                  <div class="rule"><span>Keep account active</span><strong>+10/day</strong></div>
+                  <div class="rule"><span>Contribute verified trading data</span><strong>+50/week</strong></div>
+                  <div class="rule"><span>Invite verified user</span><strong>+500</strong></div>
+                </div>
+              </div>
+              <div class="surface pad">
+                <h2>Points History</h2>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Activity</th>
+                      <th>Points</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Jun 26 2026</td><td>TEE proof verified</td><td>+250</td><td><span class="tag green">Confirmed</span></td></tr>
+                    <tr><td>Jun 25 2026</td><td>Connected Coinbase API</td><td>+100</td><td><span class="tag green">Confirmed</span></td></tr>
+                    <tr><td>Jun 25 2026</td><td>Daily active account</td><td>+10</td><td><span class="tag green">Confirmed</span></td></tr>
+                    <tr><td>Jun 24 2026</td><td>Verified trading data contribution</td><td>+50</td><td><span class="tag green">Confirmed</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="page-kpi">
+            <div class="page-header">
+              <div>
+                <h1>KPI Configuration</h1>
+                <div class="subtle">Kept from the original product.</div>
+              </div>
+            </div>
+            <div class="surface placeholder">
+              <div>
+                <h2>KPI Configuration is intentionally not redesigned.</h2>
+                <p class="subtle">This demo focuses on consumer account and token access flows.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" id="modalBackdrop">
+      <div class="modal" id="modal"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      const state = {
+        selectedToken: { symbol: "NEX", name: "Nexpace", color: "pink", initial: "N" },
+        credits: 12,
+        selectedPlan: "Pro",
+        selectedPackage: { credits: 30, price: "$24" },
+        activeTokens: [
+          { symbol: "NEX", name: "Nexpace", plan: "Pro", expires: "Jul 27 2026", status: "Active", color: "pink", initial: "N" },
+          { symbol: "BTC", name: "Bitcoin", plan: "2 Weeks", expires: "Jul 06 2026", status: "Active", color: "orange", initial: "B" },
+          { symbol: "ETH", name: "Ethereum", plan: "1 Day", expires: "Jun 28 2026", status: "Active", color: "gray", initial: "E" }
+        ],
+        exchanges: [
+          { exchange: "Coinbase", account: "acct-01", api: "Working", proof: "Onchain verified", updated: "May 19 2026", proofClass: "green" },
+          { exchange: "Kraken", account: "acct-02", api: "Working", proof: "Not generated", updated: "May 19 2026", proofClass: "" },
+          { exchange: "Bitget", account: "acct-03", api: "Passphrase required", proof: "Wallet required", updated: "May 25 2026", proofClass: "amber" },
+          { exchange: "KuCoin", account: "acct-04", api: "Working", proof: "Proof pending", updated: "May 20 2026", proofClass: "pink" }
+        ],
+        creditHistory: [
+          { date: "Jun 26 2026", type: "Purchase", detail: "Stripe", amount: "+20", balance: 20 },
+          { date: "Jun 26 2026", type: "Unlock", detail: "NEX Pro", amount: "-12", balance: 8 },
+          { date: "Jun 25 2026", type: "Signup Bonus", detail: "Welcome credits", amount: "+2", balance: 2 },
+          { date: "Jun 24 2026", type: "Unlock", detail: "ETH 1 Day", amount: "-1", balance: 0 }
+        ]
+      };
+
+      const demoPassword = "rena";
+
+      function initAuth() {
+        const authScreen = document.getElementById("authScreen");
+        const authForm = document.getElementById("authForm");
+        const passwordInput = document.getElementById("passwordInput");
+        const authError = document.getElementById("authError");
+
+        if (window.sessionStorage.getItem("insider-demo-auth") === "ok") {
+          authScreen.classList.add("hidden");
+        }
+
+        authForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          if (passwordInput.value === demoPassword) {
+            window.sessionStorage.setItem("insider-demo-auth", "ok");
+            authScreen.classList.add("hidden");
+            authError.textContent = "";
+            return;
+          }
+          authError.textContent = "Incorrect password.";
+          passwordInput.select();
+        });
+      }
+
+      const planMeta = {
+        "1 Day": { cost: 1, desc: "1 day access for quick token checks." },
+        "2 Weeks": { cost: 5, desc: "2 weeks access for active monitoring." },
+        Pro: { cost: 12, desc: "1 month access + 1 month history." }
+      };
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        window.clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2200);
+      }
+
+      function renderTopbar() {
+        document.getElementById("tokenSymbol").textContent = state.selectedToken.symbol;
+        document.getElementById("tokenName").textContent = state.selectedToken.name;
+        document.getElementById("tokenDot").textContent = state.selectedToken.initial;
+        document.getElementById("creditsPill").textContent = `${state.credits} Credits`;
+        document.getElementById("creditsBalance").textContent = state.credits;
+        document.querySelectorAll(".current-token").forEach((node) => {
+          node.textContent = `${state.selectedToken.symbol} · ${state.selectedToken.name}`;
+        });
+      }
+
+      function renderTokenMenu() {
+        const options = document.getElementById("tokenOptions");
+        options.innerHTML = state.activeTokens
+          .map(
+            (token) => `
+              <button class="token-option ${token.symbol === state.selectedToken.symbol ? "active" : ""}" data-token="${token.symbol}" type="button">
+                <span class="mini-token ${token.color}">${token.initial}</span>
+                <span class="token-copy"><strong>${token.symbol}</strong><span class="token-name">${token.name}</span></span>
+              </button>
+            `
+          )
+          .join("");
+      }
+
+      function renderActiveTokens() {
+        document.getElementById("activeTokenRows").innerHTML = state.activeTokens
+          .map(
+            (token) => `
+              <tr>
+                <td>
+                  <div class="token-cell">
+                    <span class="mini-token ${token.color}">${token.initial}</span>
+                    <div><strong>${token.symbol}</strong><div class="subtle" style="margin: 2px 0 0">${token.name}</div></div>
+                  </div>
+                </td>
+                <td>${token.plan}</td>
+                <td>${token.expires}</td>
+                <td><span class="tag green">${token.status}</span></td>
+                <td>
+                  <div class="row-actions">
+                    <button class="text-btn" data-view-token="${token.symbol}" type="button">View</button>
+                    <button class="text-btn" data-upgrade-token="${token.symbol}" type="button">Upgrade</button>
+                  </div>
+                </td>
+              </tr>
+            `
+          )
+          .join("");
+      }
+
+      function renderExchanges() {
+        document.getElementById("exchangeRows").innerHTML = state.exchanges
+          .map(
+            (row, index) => `
+              <tr>
+                <td><div class="token-cell"><span class="exchange-mark">${row.exchange.slice(0, 1)}</span><strong>${row.exchange}</strong></div></td>
+                <td>${row.account}</td>
+                <td><span class="tag ${row.api === "Working" ? "green" : "amber"}">${row.api}</span></td>
+                <td><span class="tag ${row.proofClass}">${row.proof}</span></td>
+                <td>${row.updated}</td>
+                <td>
+                  <div class="row-actions">
+                    <button class="text-btn muted" data-refresh="${index}" type="button">Refresh</button>
+                    <button class="text-btn" data-edit-exchange="${index}" type="button">Edit API</button>
+                    <button class="text-btn" data-proof="${index}" type="button">Generate Proof</button>
+                    <button class="text-btn danger" data-delete-exchange="${index}" type="button">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            `
+          )
+          .join("");
+      }
+
+      function renderCreditHistory() {
+        document.getElementById("creditHistoryRows").innerHTML = state.creditHistory
+          .map(
+            (row) => `
+              <tr>
+                <td>${row.date}</td>
+                <td>${row.type}</td>
+                <td>${row.detail}</td>
+                <td>${row.amount}</td>
+                <td>${row.balance}</td>
+              </tr>
+            `
+          )
+          .join("");
+      }
+
+      function renderPlan() {
+        const meta = planMeta[state.selectedPlan];
+        document.getElementById("planCost").textContent = meta.cost;
+        document.getElementById("planDesc").textContent = meta.desc;
+      }
+
+      function renderAll() {
+        renderTopbar();
+        renderTokenMenu();
+        renderActiveTokens();
+        renderExchanges();
+        renderCreditHistory();
+        renderPlan();
+      }
+
+      function goToPage(page) {
+        document.querySelectorAll(".page").forEach((node) => node.classList.remove("active"));
+        document.getElementById(`page-${page}`).classList.add("active");
+        document.querySelectorAll(".nav-item").forEach((node) => {
+          node.classList.toggle("active", node.dataset.page === page);
+        });
+      }
+
+      function openModal(type, payload = {}) {
+        const backdrop = document.getElementById("modalBackdrop");
+        const modal = document.getElementById("modal");
+        if (type === "buyCredits") {
+          modal.innerHTML = `
+            <div class="modal-head">
+              <div><h2>Buy Credits</h2><div class="subtle">Add spendable credits to unlock token analysis.</div></div>
+              <button class="icon-button" data-close-modal type="button">×</button>
+            </div>
+            <div class="modal-fields">
+              <button class="package active" data-modal-buy="30" type="button"><strong>30 Credits</strong><span>$24 · Stripe</span></button>
+              <button class="package" data-modal-buy="100" type="button"><strong>100 Credits</strong><span>$69 · Stripe</span></button>
+            </div>
+          `;
+        }
+
+        if (type === "exchange") {
+          modal.innerHTML = `
+            <div class="modal-head">
+              <div><h2>Add Exchange</h2><div class="subtle">Manual API input only for this consumer flow.</div></div>
+              <button class="icon-button" data-close-modal type="button">×</button>
+            </div>
+            <div class="modal-fields">
+              <select class="input" id="exchangeSelect">
+                <option>Binance</option>
+                <option>OKX</option>
+                <option>Bybit</option>
+                <option>Gate</option>
+              </select>
+              <input class="input" id="exchangeAccount" placeholder="Account name" value="acct-05" />
+              <input class="input" placeholder="API Key" />
+              <input class="input" placeholder="API Secret" />
+              <input class="input" placeholder="Passphrase, if required" />
+            </div>
+            <div class="modal-actions">
+              <button class="btn btn-ghost" data-close-modal type="button">Cancel</button>
+              <button class="btn btn-primary" id="saveExchange" type="button">Save Exchange</button>
+            </div>
+          `;
+        }
+
+        if (type === "editExchange") {
+          const row = state.exchanges[payload.index];
+          modal.innerHTML = `
+            <div class="modal-head">
+              <div><h2>Edit API</h2><div class="subtle">${row.exchange} · Manual input</div></div>
+              <button class="icon-button" data-close-modal type="button">×</button>
+            </div>
+            <div class="modal-fields">
+              <input class="input" id="editAccountName" value="${row.account}" />
+              <input class="input" placeholder="API Key" value="••••••••••" />
+              <input class="input" placeholder="API Secret" value="••••••••••" />
+              <input class="input" placeholder="Passphrase, if required" />
+            </div>
+            <div class="modal-actions">
+              <button class="btn btn-ghost" data-close-modal type="button">Cancel</button>
+              <button class="btn btn-primary" id="saveEditExchange" data-index="${payload.index}" type="button">Save API</button>
+            </div>
+          `;
+        }
+
+        backdrop.classList.add("open");
+      }
+
+      function closeModal() {
+        document.getElementById("modalBackdrop").classList.remove("open");
+      }
+
+      document.addEventListener("click", (event) => {
+        const target = event.target.closest("button");
+        const tokenButton = event.target.closest("#tokenButton");
+        const menu = document.getElementById("tokenMenu");
+
+        if (tokenButton) {
+          menu.classList.toggle("open");
+          return;
+        }
+
+        if (!event.target.closest(".token-selector")) {
+          menu.classList.remove("open");
+        }
+
+        if (!target) return;
+
+        if (target.dataset.page) goToPage(target.dataset.page);
+        if (target.dataset.pageButton) goToPage(target.dataset.pageButton);
+        if (target.dataset.openModal) openModal(target.dataset.openModal);
+        if (target.dataset.closeModal !== undefined) closeModal();
+        if (target.dataset.toast) showToast(target.dataset.toast);
+
+        if (target.dataset.token) {
+          state.selectedToken = state.activeTokens.find((token) => token.symbol === target.dataset.token);
+          menu.classList.remove("open");
+          renderAll();
+        }
+
+        if (target.dataset.plan) {
+          state.selectedPlan = target.dataset.plan;
+          document.querySelectorAll("#planSegments .segment").forEach((node) => node.classList.toggle("active", node.dataset.plan === state.selectedPlan));
+          renderPlan();
+        }
+
+        if (target.dataset.credits) {
+          state.selectedPackage = { credits: Number(target.dataset.credits), price: target.dataset.price };
+          document.querySelectorAll(".package[data-credits]").forEach((node) => node.classList.toggle("active", node === target));
+        }
+
+        if (target.id === "purchasePackage") {
+          const amount = state.selectedPackage.credits || 10;
+          state.credits += amount;
+          state.creditHistory.unshift({ date: "Jun 27 2026", type: "Purchase", detail: "Stripe", amount: `+${amount}`, balance: state.credits });
+          renderAll();
+          showToast(`${amount} credits added.`);
+        }
+
+        if (target.dataset.modalBuy) {
+          const amount = Number(target.dataset.modalBuy);
+          state.credits += amount;
+          state.creditHistory.unshift({ date: "Jun 27 2026", type: "Purchase", detail: "Stripe", amount: `+${amount}`, balance: state.credits });
+          closeModal();
+          renderAll();
+          showToast(`${amount} credits added.`);
+        }
+
+        if (target.id === "buyAnalysis") {
+          const meta = planMeta[state.selectedPlan];
+          if (state.credits < meta.cost) {
+            showToast("Not enough credits. Buy more credits first.");
+            return;
+          }
+          const raw = document.getElementById("unlockSearch").value.trim() || "SOL · Solana";
+          const [symbolPart, namePart] = raw.split("·").map((part) => part.trim());
+          const symbol = (symbolPart || "SOL").toUpperCase();
+          const name = namePart || symbol;
+          const exists = state.activeTokens.some((token) => token.symbol === symbol);
+          state.credits -= meta.cost;
+          if (!exists) {
+            state.activeTokens.push({ symbol, name, plan: state.selectedPlan, expires: "Jul 27 2026", status: "Active", color: "purple", initial: symbol.slice(0, 1) });
+          }
+          state.selectedToken = state.activeTokens.find((token) => token.symbol === symbol) || state.selectedToken;
+          state.creditHistory.unshift({ date: "Jun 27 2026", type: "Unlock", detail: `${symbol} ${state.selectedPlan}`, amount: `-${meta.cost}`, balance: state.credits });
+          renderAll();
+          showToast(`${symbol} analysis unlocked.`);
+        }
+
+        if (target.dataset.viewToken) {
+          state.selectedToken = state.activeTokens.find((token) => token.symbol === target.dataset.viewToken);
+          renderAll();
+          goToPage("overview");
+        }
+
+        if (target.dataset.upgradeToken) {
+          showToast(`${target.dataset.upgradeToken} upgrade flow opened.`);
+        }
+
+        if (target.dataset.refresh) {
+          showToast(`${state.exchanges[Number(target.dataset.refresh)].exchange} refreshed.`);
+        }
+
+        if (target.dataset.editExchange) {
+          openModal("editExchange", { index: Number(target.dataset.editExchange) });
+        }
+
+        if (target.dataset.proof) {
+          const index = Number(target.dataset.proof);
+          state.exchanges[index].proof = "Proof pending";
+          state.exchanges[index].proofClass = "pink";
+          renderExchanges();
+          showToast("TEE proof generation started.");
+        }
+
+        if (target.dataset.deleteExchange) {
+          const index = Number(target.dataset.deleteExchange);
+          const removed = state.exchanges.splice(index, 1)[0];
+          renderExchanges();
+          showToast(`${removed.exchange} deleted.`);
+        }
+
+        if (target.id === "saveExchange") {
+          const exchange = document.getElementById("exchangeSelect").value;
+          const account = document.getElementById("exchangeAccount").value || "acct-new";
+          state.exchanges.push({ exchange, account, api: "Working", proof: "Not generated", updated: "Jun 27 2026", proofClass: "" });
+          closeModal();
+          renderExchanges();
+          showToast(`${exchange} added.`);
+        }
+
+        if (target.id === "saveEditExchange") {
+          const index = Number(target.dataset.index);
+          state.exchanges[index].account = document.getElementById("editAccountName").value;
+          state.exchanges[index].updated = "Jun 27 2026";
+          closeModal();
+          renderExchanges();
+          showToast("API settings saved.");
+        }
+      });
+
+      document.getElementById("modalBackdrop").addEventListener("click", (event) => {
+        if (event.target.id === "modalBackdrop") closeModal();
+      });
+
+      initAuth();
+      renderAll();
+    </script>
+  </body>
+</html>
