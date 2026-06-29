@@ -7,19 +7,18 @@
     <style>
       :root {
         --pink: #ff2d8f;
-        --pink-dark: #e91b7d;
+        --pink-dark: #e71d7d;
         --pink-soft: #fff0f7;
         --bg: #f5f5f7;
         --surface: #ffffff;
-        --surface-soft: #fbfbfd;
+        --soft: #fbfbfd;
         --text: #1d1d1f;
-        --muted: rgba(29, 29, 31, 0.64);
-        --faint: rgba(29, 29, 31, 0.14);
+        --muted: rgba(29, 29, 31, 0.62);
         --line: rgba(29, 29, 31, 0.1);
         --green: #16a34a;
+        --green-soft: #eaf8ef;
         --red: #ff3b30;
-        --amber: #b7791f;
-        --shadow: rgba(0, 0, 0, 0.1) 0 18px 48px;
+        --shadow: rgba(0, 0, 0, 0.1) 0 20px 56px;
       }
 
       * {
@@ -29,15 +28,14 @@
       body {
         margin: 0;
         min-height: 100vh;
-        background: var(--bg);
         color: var(--text);
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+        background: var(--bg);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
         letter-spacing: -0.18px;
       }
 
       button,
-      input,
-      select {
+      input {
         font: inherit;
       }
 
@@ -45,9 +43,178 @@
         cursor: pointer;
       }
 
+      .hidden {
+        display: none !important;
+      }
+
+      .login {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: white;
+      }
+
+      .login-art {
+        position: relative;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 22% 12%, rgba(255, 45, 143, 0.82), transparent 28%),
+          radial-gradient(circle at 70% 28%, rgba(136, 60, 255, 0.5), transparent 34%),
+          linear-gradient(135deg, #33122d 0%, #160e28 46%, #070914 100%);
+      }
+
+      .login-art::before {
+        content: "";
+        position: absolute;
+        inset: -20%;
+        background:
+          linear-gradient(118deg, transparent 14%, rgba(255, 255, 255, 0.14) 18%, transparent 24%),
+          linear-gradient(62deg, transparent 42%, rgba(255, 255, 255, 0.12) 46%, transparent 54%);
+        transform: rotate(-8deg);
+      }
+
+      .login-brand {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        color: white;
+        font-size: 54px;
+        line-height: 0.95;
+        font-weight: 800;
+        letter-spacing: -2.5px;
+      }
+
+      .cat-logo {
+        width: 132px;
+        height: 132px;
+        border-radius: 30px;
+        background: var(--pink);
+        display: grid;
+        place-items: center;
+        color: #050505;
+        font-size: 68px;
+      }
+
+      .login-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px;
+      }
+
+      .login-card {
+        width: min(520px, 100%);
+      }
+
+      .mini-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 70px;
+      }
+
+      .mini-mark,
+      .brand-mark {
+        background: var(--pink);
+        color: white;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+      }
+
+      .mini-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+      }
+
+      .mini-word {
+        font-size: 16px;
+        font-weight: 800;
+        letter-spacing: 8px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 56px;
+        line-height: 1.05;
+        font-weight: 750;
+        letter-spacing: -2.4px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 28px;
+        line-height: 1.12;
+        font-weight: 720;
+        letter-spacing: -1px;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 19px;
+        font-weight: 700;
+      }
+
+      .auth-stack {
+        margin-top: 48px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .auth-button,
+      .primary-wide {
+        width: 100%;
+        height: 58px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 17px;
+      }
+
+      .auth-button {
+        border: 1px solid rgba(29, 29, 31, 0.12);
+        background: white;
+        color: var(--text);
+      }
+
+      .auth-button.primary,
+      .primary-wide {
+        border: 0;
+        color: white;
+        background: var(--pink);
+      }
+
+      .email-expand {
+        padding: 16px;
+        border-radius: 16px;
+        background: var(--soft);
+        box-shadow: inset 0 0 0 1px var(--line);
+        display: grid;
+        gap: 14px;
+      }
+
+      .inline-field {
+        display: grid;
+        grid-template-columns: 1fr 132px;
+        gap: 12px;
+      }
+
+      .code-row {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+      }
+
+      .code-row input {
+        text-align: center;
+      }
+
       .app {
         display: grid;
-        grid-template-columns: 276px minmax(0, 1fr);
+        grid-template-columns: 284px minmax(0, 1fr);
         min-height: 100vh;
       }
 
@@ -55,73 +222,55 @@
         position: sticky;
         top: 0;
         height: 100vh;
-        padding: 24px 18px;
-        background: rgba(255, 255, 255, 0.78);
+        padding: 24px 20px;
+        background: rgba(255, 255, 255, 0.82);
         border-right: 1px solid rgba(29, 29, 31, 0.08);
         backdrop-filter: saturate(180%) blur(24px);
-        display: flex;
-        flex-direction: column;
-        gap: 28px;
       }
 
       .brand {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 0 4px;
+        gap: 14px;
+        margin-bottom: 42px;
       }
 
       .brand-mark {
-        width: 42px;
-        height: 42px;
-        border-radius: 11px;
-        background: var(--pink);
-        color: white;
-        display: grid;
-        place-items: center;
-        font-size: 24px;
-        font-weight: 800;
-        letter-spacing: -2px;
+        width: 54px;
+        height: 54px;
+        border-radius: 15px;
+        font-size: 30px;
       }
 
       .brand-text {
-        font-size: 19px;
-        font-weight: 650;
-        letter-spacing: -0.42px;
+        font-size: 22px;
+        font-weight: 800;
       }
 
       .nav-label {
-        margin: 2px 4px 10px;
-        color: rgba(29, 29, 31, 0.48);
-        font-size: 13px;
+        margin-bottom: 14px;
+        color: rgba(29, 29, 31, 0.5);
+        font-size: 15px;
       }
 
       .nav {
-        display: flex;
-        flex-direction: column;
+        display: grid;
         gap: 5px;
-      }
-
-      .nav-section {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
       }
 
       .nav-item,
       .nav-parent {
-        width: 100%;
-        border: 0;
-        background: transparent;
-        color: rgba(29, 29, 31, 0.78);
-        border-radius: 10px;
         min-height: 42px;
-        padding: 0 12px;
+        border: 0;
+        border-radius: 10px;
+        background: transparent;
+        color: rgba(29, 29, 31, 0.72);
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 11px;
+        padding: 0 12px;
         text-align: left;
-        font-size: 15px;
+        font-size: 16px;
       }
 
       .nav-item:hover,
@@ -132,59 +281,20 @@
       .nav-item.active {
         color: var(--pink);
         background: var(--pink-soft);
-        font-weight: 600;
+        font-weight: 700;
       }
 
       .nav-icon {
         width: 20px;
-        display: inline-grid;
-        place-items: center;
-        color: currentColor;
+        text-align: center;
       }
 
       .nav-children {
         margin-left: 18px;
-        padding-left: 14px;
+        padding-left: 15px;
         border-left: 1px solid rgba(29, 29, 31, 0.09);
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-      }
-
-      .account-card {
-        margin-top: auto;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 8px;
-      }
-
-      .avatar {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: var(--pink);
-        color: white;
         display: grid;
-        place-items: center;
-        font-weight: 700;
-      }
-
-      .account-meta {
-        min-width: 0;
-      }
-
-      .account-name {
-        font-size: 14px;
-        font-weight: 600;
-      }
-
-      .account-email {
-        color: var(--muted);
-        font-size: 12px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        gap: 4px;
       }
 
       .main {
@@ -194,164 +304,127 @@
       .topbar {
         position: sticky;
         top: 0;
-        z-index: 10;
-        height: 64px;
-        padding: 10px 32px;
-        background: rgba(245, 245, 247, 0.74);
+        z-index: 20;
+        height: 66px;
+        padding: 12px 34px;
+        background: rgba(245, 245, 247, 0.78);
         border-bottom: 1px solid rgba(29, 29, 31, 0.08);
         backdrop-filter: saturate(180%) blur(22px);
         display: flex;
-        align-items: center;
+        justify-content: flex-end;
         gap: 12px;
       }
 
-      .token-selector {
+      .top-control {
         position: relative;
-        width: min(420px, 44vw);
       }
 
-      .token-button {
-        width: 100%;
-        height: 42px;
-        border: 0;
-        border-radius: 999px;
-        background: var(--surface);
-        padding: 0 14px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.08);
-      }
-
-      .token-dot {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: var(--pink);
-        color: white;
-        display: grid;
-        place-items: center;
-        font-size: 11px;
-        font-weight: 700;
-      }
-
-      .token-copy {
-        display: flex;
-        align-items: baseline;
-        gap: 8px;
-        min-width: 0;
-      }
-
-      .token-symbol {
-        font-weight: 650;
-      }
-
-      .token-name {
-        color: var(--muted);
-        font-size: 13px;
-      }
-
-      .chevron {
-        margin-left: auto;
-        color: rgba(29, 29, 31, 0.44);
-      }
-
-      .token-menu {
-        position: absolute;
-        inset: 48px 0 auto 0;
-        display: none;
-        padding: 8px;
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.94);
-        box-shadow: var(--shadow);
-        backdrop-filter: saturate(180%) blur(18px);
-      }
-
-      .token-menu.open {
-        display: block;
-      }
-
-      .menu-label {
-        color: rgba(29, 29, 31, 0.46);
-        font-size: 12px;
-        padding: 7px 10px;
-      }
-
-      .token-option {
-        width: 100%;
-        height: 44px;
-        border: 0;
-        border-radius: 10px;
-        background: transparent;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 0 10px;
-        text-align: left;
-      }
-
-      .token-option:hover,
-      .token-option.active {
-        background: var(--pink-soft);
-      }
-
-      .top-spacer {
-        flex: 1;
-      }
-
-      .pill {
-        height: 38px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 45, 143, 0.22);
-        background: rgba(255, 255, 255, 0.78);
-        color: var(--pink);
-        padding: 0 14px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 14px;
-        font-weight: 600;
-      }
-
+      .top-pill,
       .btn {
-        height: 38px;
+        height: 40px;
         border-radius: 999px;
         border: 0;
-        padding: 0 16px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        font-weight: 600;
+        gap: 9px;
+        padding: 0 16px;
+        font-weight: 700;
+        background: white;
+        color: var(--text);
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.09);
       }
 
-      .btn-primary {
-        background: var(--pink);
+      .btn {
+        min-width: 96px;
+      }
+
+      .btn-pink {
         color: white;
+        background: var(--pink);
+        box-shadow: none;
       }
 
-      .btn-primary:hover {
+      .btn-pink:hover {
         background: var(--pink-dark);
       }
 
-      .btn-secondary {
+      .btn-outline {
         color: var(--pink);
+        background: white;
+        box-shadow: inset 0 0 0 1px rgba(255, 45, 143, 0.72);
+      }
+
+      .btn-light {
+        background: var(--soft);
+        box-shadow: inset 0 0 0 1px var(--line);
+      }
+
+      .token-logo,
+      .asset-logo {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: white;
+        background: var(--pink);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .asset-logo.orange {
+        background: #f7931a;
+      }
+
+      .asset-logo.gray {
+        background: #627eea;
+      }
+
+      .asset-logo.purple {
+        background: #9945ff;
+      }
+
+      .asset-logo.pink {
+        background: var(--pink);
+      }
+
+      .dropdown {
+        position: absolute;
+        right: 0;
+        top: 48px;
+        width: 260px;
+        padding: 8px;
+        border-radius: 16px;
+        background: white;
+        box-shadow: var(--shadow);
+        display: none;
+      }
+
+      .dropdown.open {
+        display: block;
+      }
+
+      .dropdown button {
+        width: 100%;
+        min-height: 42px;
+        border: 0;
+        border-radius: 10px;
+        background: white;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-align: left;
+      }
+
+      .dropdown button:hover {
         background: var(--pink-soft);
       }
 
-      .btn-ghost {
-        color: var(--text);
-        background: rgba(29, 29, 31, 0.06);
-      }
-
-      .btn-danger {
-        color: white;
-        background: var(--red);
-      }
-
       .content {
-        padding: 44px 40px 64px;
-        max-width: 1220px;
+        padding: 42px 38px 70px;
+        max-width: 1260px;
       }
 
       .page {
@@ -362,158 +435,169 @@
         display: block;
       }
 
-      .page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 24px;
+      .page-head {
         margin-bottom: 28px;
-      }
-
-      h1 {
-        margin: 0;
-        font-size: 42px;
-        line-height: 1.1;
-        font-weight: 650;
-        letter-spacing: -1.4px;
-      }
-
-      h2 {
-        margin: 0;
-        font-size: 24px;
-        line-height: 1.14;
-        font-weight: 650;
-        letter-spacing: -0.48px;
-      }
-
-      h3 {
-        margin: 0;
-        font-size: 17px;
-        font-weight: 650;
-      }
-
-      .subtle {
-        margin-top: 7px;
-        color: var(--muted);
-        font-size: 15px;
-        line-height: 1.45;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
       }
 
       .surface {
-        background: var(--surface);
-        border-radius: 18px;
-        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.05);
+        background: white;
+        border-radius: 22px;
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.04);
       }
 
-      .surface.pad {
-        padding: 24px;
+      .pad {
+        padding: 26px;
+      }
+
+      .stack {
+        display: grid;
+        gap: 18px;
       }
 
       .grid-2 {
         display: grid;
-        grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+        grid-template-columns: minmax(0, 0.92fr) minmax(520px, 1.08fr);
         gap: 18px;
       }
 
-      .stack {
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-      }
-
-      .form-row {
-        display: grid;
-        grid-template-columns: 160px minmax(0, 1fr) auto;
-        gap: 18px;
-        min-height: 64px;
-        align-items: center;
-        border-top: 1px solid var(--line);
-      }
-
-      .form-row:first-child {
-        border-top: 0;
-      }
-
-      .label {
-        color: var(--muted);
-        font-size: 14px;
-      }
-
-      .value {
-        font-size: 16px;
-        font-weight: 520;
-      }
-
-      .input {
-        width: 100%;
-        height: 46px;
+      .input,
+      .select-field {
+        height: 52px;
         border: 0;
-        border-radius: 12px;
-        background: var(--surface-soft);
-        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.08);
-        padding: 0 14px;
+        border-radius: 13px;
+        background: white;
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.13);
+        padding: 0 16px;
         color: var(--text);
         outline: none;
-      }
-
-      .input:focus {
-        box-shadow: inset 0 0 0 2px rgba(255, 45, 143, 0.52);
-      }
-
-      .segmented {
-        display: inline-grid;
-        grid-auto-flow: column;
-        gap: 4px;
-        padding: 4px;
-        border-radius: 999px;
-        background: rgba(29, 29, 31, 0.06);
-      }
-
-      .segment {
-        border: 0;
-        border-radius: 999px;
-        min-width: 92px;
-        height: 34px;
-        background: transparent;
-        color: var(--muted);
         font-weight: 600;
       }
 
-      .segment.active {
-        background: var(--pink);
-        color: white;
+      .input:focus,
+      .select-field:focus {
+        box-shadow: inset 0 0 0 2px rgba(255, 45, 143, 0.45);
       }
 
-      .plan-copy {
-        margin-top: 18px;
+      .select-wrap {
+        position: relative;
+        margin-top: 22px;
+      }
+
+      .select-field {
+        width: 100%;
         display: flex;
-        align-items: baseline;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .token-results {
+        position: absolute;
+        inset: 60px 0 auto 0;
+        z-index: 5;
+        padding: 8px;
+        border-radius: 16px;
+        background: white;
+        box-shadow: var(--shadow);
+        display: none;
+      }
+
+      .token-results.open {
+        display: block;
+      }
+
+      .result-row {
+        width: 100%;
+        min-height: 56px;
+        border: 0;
+        border-radius: 12px;
+        background: white;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 12px;
+        text-align: left;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .result-row:hover,
+      .result-row.active {
+        background: #f0f3f7;
+      }
+
+      .code {
+        color: rgba(29, 29, 31, 0.52);
+        font-weight: 650;
+      }
+
+      .plans {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 10px;
       }
 
-      .cost {
-        font-size: 34px;
-        line-height: 1;
-        font-weight: 650;
-        letter-spacing: -1px;
+      .plan-card,
+      .package,
+      .metric {
+        border: 0;
+        border-radius: 16px;
+        background: var(--soft);
+        box-shadow: inset 0 0 0 1px var(--line);
+        padding: 16px;
+        text-align: left;
+      }
+
+      .plan-card {
+        min-height: 172px;
+      }
+
+      .plan-card.active,
+      .package.active {
+        background: var(--pink-soft);
+        box-shadow: inset 0 0 0 2px rgba(255, 45, 143, 0.45);
+      }
+
+      .plan-copy {
+        margin: 12px 0;
+        color: rgba(29, 29, 31, 0.72);
+        line-height: 1.28;
+        font-size: 14px;
+      }
+
+      .price {
+        color: var(--pink);
+        font-size: 20px;
+        font-weight: 800;
+      }
+
+      .limit {
+        margin: 18px 0;
+        color: rgba(29, 29, 31, 0.62);
+        line-height: 1.35;
+        font-size: 14px;
       }
 
       .table {
         width: 100%;
         border-collapse: collapse;
-        overflow: hidden;
       }
 
       .table th {
         color: rgba(29, 29, 31, 0.5);
-        font-size: 12px;
-        font-weight: 650;
+        font-size: 13px;
+        font-weight: 750;
         text-align: left;
-        padding: 15px 16px;
+        padding: 15px 14px;
       }
 
       .table td {
-        padding: 17px 16px;
+        padding: 16px 14px;
         border-top: 1px solid var(--line);
         vertical-align: middle;
         font-size: 14px;
@@ -522,227 +606,262 @@
       .token-cell {
         display: flex;
         align-items: center;
-        gap: 11px;
-      }
-
-      .mini-token {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-        color: white;
-        font-size: 12px;
-        font-weight: 700;
-      }
-
-      .mini-token.pink {
-        background: var(--pink);
-      }
-
-      .mini-token.orange {
-        background: #f7931a;
-      }
-
-      .mini-token.gray {
-        background: #627eea;
-      }
-
-      .mini-token.purple {
-        background: #9945ff;
+        gap: 12px;
       }
 
       .tag {
+        height: 28px;
+        border-radius: 999px;
         display: inline-flex;
         align-items: center;
-        height: 26px;
-        border-radius: 999px;
+        gap: 6px;
         padding: 0 10px;
-        font-size: 12px;
-        font-weight: 650;
-        background: rgba(29, 29, 31, 0.06);
-      }
-
-      .tag.green {
         color: var(--green);
-        background: rgba(22, 163, 74, 0.1);
+        background: var(--green-soft);
+        font-size: 13px;
+        font-weight: 750;
       }
 
-      .tag.pink {
+      .action-row {
+        display: flex;
+        gap: 8px;
+      }
+
+      .small-btn,
+      .profile-action {
+        height: 40px;
+        min-width: 118px;
+        border-radius: 10px;
+        border: 0;
         color: var(--pink);
-        background: var(--pink-soft);
+        background: white;
+        box-shadow: inset 0 0 0 1px rgba(255, 45, 143, 0.72);
+        font-weight: 750;
       }
 
-      .tag.amber {
-        color: var(--amber);
-        background: rgba(245, 158, 11, 0.16);
+      .small-btn:disabled,
+      .primary-wide:disabled {
+        color: rgba(29, 29, 31, 0.42);
+        background: rgba(29, 29, 31, 0.08);
+        box-shadow: none;
+        cursor: default;
       }
 
-      .row-actions {
+      .profile-top {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 26px;
+        padding: 72px 0 54px;
+      }
+
+      .profile-avatar {
+        width: 118px;
+        height: 118px;
+        border-radius: 50%;
+        background: var(--pink);
+        display: grid;
+        place-items: center;
+        font-size: 62px;
+        box-shadow: 0 0 0 5px rgba(29, 29, 31, 0.08);
+      }
+
+      .profile-sub {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .section-title {
+        margin: 0 0 24px;
+        font-size: 22px;
+        font-weight: 760;
+      }
+
+      .profile-row {
+        display: grid;
+        grid-template-columns: 140px minmax(420px, 720px) 128px 128px 1fr;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+
+      .profile-label {
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .value-box {
+        height: 52px;
+        border-radius: 12px;
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.13);
         display: flex;
         align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-
-      .text-btn {
-        border: 0;
-        background: transparent;
-        color: var(--pink);
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0 16px;
+        font-size: 18px;
         font-weight: 650;
-        padding: 4px 2px;
+        background: white;
       }
 
-      .text-btn.muted {
+      .passkey-card {
+        min-height: 100px;
+        border-radius: 16px;
+        box-shadow: inset 0 0 0 1px var(--line);
+        display: grid;
+        grid-template-columns: 58px 1fr 128px;
+        align-items: center;
+        gap: 16px;
+        padding: 20px;
+        background: white;
+      }
+
+      .muted {
         color: var(--muted);
       }
 
-      .text-btn.danger {
-        color: var(--red);
+      .balance-card {
+        min-height: 170px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .balance-label {
+        color: var(--muted);
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .balance-number {
+        color: var(--pink);
+        font-size: 64px;
+        line-height: 0.95;
+        font-weight: 800;
+        letter-spacing: -2.4px;
       }
 
       .packages {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(4, 1fr);
         gap: 12px;
+        margin: 22px 0;
       }
 
       .package {
-        min-height: 108px;
-        border: 0;
-        border-radius: 16px;
-        background: var(--surface-soft);
-        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.08);
-        padding: 16px;
-        text-align: left;
-      }
-
-      .package.active {
-        background: var(--pink-soft);
-        box-shadow: inset 0 0 0 2px rgba(255, 45, 143, 0.42);
+        min-height: 120px;
       }
 
       .package strong {
         display: block;
-        font-size: 18px;
-        margin-bottom: 8px;
+        font-size: 21px;
+        margin-bottom: 12px;
       }
 
-      .package span {
-        color: var(--muted);
-      }
-
-      .hero-balance {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 20px;
-      }
-
-      .balance-number {
-        font-size: 58px;
-        line-height: 0.98;
-        font-weight: 650;
-        letter-spacing: -2px;
-      }
-
-      .balance-unit {
-        color: var(--pink);
-      }
-
-      .identity {
+      .payment-row {
         display: flex;
         align-items: center;
-        gap: 16px;
-        padding-bottom: 22px;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .identity .avatar {
-        width: 60px;
-        height: 60px;
-        font-size: 20px;
-      }
-
-      .proof-list {
-        overflow: auto;
-      }
-
-      .exchange-mark {
-        width: 30px;
-        height: 30px;
-        border-radius: 9px;
-        display: grid;
-        place-items: center;
-        background: var(--surface-soft);
-        color: var(--pink);
-        font-weight: 800;
-      }
-
-      .add-row {
-        margin-top: 14px;
-        width: 100%;
-        min-height: 58px;
-        border: 1px dashed rgba(29, 29, 31, 0.18);
-        border-radius: 16px;
-        color: var(--muted);
-        background: rgba(255, 255, 255, 0.35);
-        font-weight: 650;
-      }
-
-      .rules {
-        display: grid;
         gap: 10px;
       }
 
-      .rule {
-        display: flex;
-        justify-content: space-between;
-        gap: 18px;
-        min-height: 44px;
-        align-items: center;
-        padding: 0 4px;
-        border-top: 1px solid var(--line);
+      .payment-pill {
+        height: 40px;
+        min-width: 92px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(29, 29, 31, 0.07);
+        font-weight: 750;
       }
 
-      .rule:first-child {
-        border-top: 0;
-      }
-
-      .placeholder {
-        min-height: 520px;
-        display: grid;
-        place-items: center;
-        color: var(--muted);
-        text-align: center;
-      }
-
-      .toast {
-        position: fixed;
-        right: 24px;
-        bottom: 24px;
-        z-index: 30;
-        min-width: 280px;
-        border-radius: 16px;
-        background: rgba(29, 29, 31, 0.92);
+      .payment-pill.active {
         color: white;
-        padding: 14px 16px;
-        box-shadow: var(--shadow);
-        transform: translateY(18px);
-        opacity: 0;
-        pointer-events: none;
-        transition: 0.22s ease;
+        background: var(--pink);
       }
 
-      .toast.show {
-        transform: translateY(0);
-        opacity: 1;
+      .pagination {
+        margin-top: 18px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .page-btn {
+        height: 34px;
+        min-width: 34px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(29, 29, 31, 0.06);
+        font-weight: 700;
+      }
+
+      .page-btn.active {
+        color: white;
+        background: var(--pink);
+      }
+
+      .ref-top {
+        display: grid;
+        grid-template-columns: 1.35fr 0.85fr;
+        gap: 20px;
+        align-items: start;
+      }
+
+      .ref-row {
+        display: grid;
+        grid-template-columns: 170px minmax(0, 1fr) 100px;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 12px;
+        font-size: 42px;
+        color: var(--pink);
+      }
+
+      .rules-doc {
+        max-width: 980px;
+        display: grid;
+        gap: 28px;
+      }
+
+      .rules-doc h2 {
+        margin-bottom: 12px;
+      }
+
+      .rules-doc h3 {
+        margin: 22px 0 8px;
+      }
+
+      .rules-doc p,
+      .rules-doc li {
+        line-height: 1.55;
+      }
+
+      .rules-doc ul {
+        margin: 12px 0 0;
+        padding-left: 20px;
       }
 
       .modal-backdrop {
         position: fixed;
         inset: 0;
-        z-index: 20;
+        z-index: 50;
         display: none;
         place-items: center;
         background: rgba(0, 0, 0, 0.22);
@@ -754,77 +873,49 @@
       }
 
       .modal {
-        width: min(520px, calc(100vw - 36px));
+        width: min(520px, calc(100vw - 32px));
         border-radius: 22px;
-        background: rgba(255, 255, 255, 0.96);
+        background: white;
         box-shadow: var(--shadow);
         padding: 24px;
-      }
-
-      .modal-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 18px;
-      }
-
-      .icon-button {
-        width: 34px;
-        height: 34px;
-        border: 0;
-        border-radius: 50%;
-        background: rgba(29, 29, 31, 0.06);
-      }
-
-      .modal-fields {
-        display: grid;
-        gap: 12px;
       }
 
       .modal-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 18px;
-      }
-
-      .auth-screen {
-        position: fixed;
-        inset: 0;
-        z-index: 100;
+        margin-top: 20px;
         display: grid;
-        place-items: center;
-        padding: 24px;
-        background: var(--bg);
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
       }
 
-      .auth-screen.hidden {
-        display: none;
-      }
-
-      .auth-panel {
-        width: min(420px, 100%);
-        border-radius: 24px;
-        background: rgba(255, 255, 255, 0.92);
+      .toast {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        z-index: 60;
+        min-width: 260px;
+        border-radius: 16px;
+        background: rgba(29, 29, 31, 0.92);
+        color: white;
+        padding: 14px 16px;
         box-shadow: var(--shadow);
-        padding: 28px;
+        opacity: 0;
+        transform: translateY(16px);
+        pointer-events: none;
+        transition: 0.2s ease;
       }
 
-      .auth-panel .brand {
-        padding: 0;
-        margin-bottom: 22px;
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
       }
 
-      .auth-error {
-        min-height: 20px;
-        margin-top: 10px;
-        color: var(--red);
-        font-size: 13px;
-      }
-
-      @media (max-width: 980px) {
-        .app {
+      @media (max-width: 1100px) {
+        .login,
+        .app,
+        .grid-2,
+        .ref-top,
+        .metrics,
+        .packages {
           grid-template-columns: 1fr;
         }
 
@@ -833,766 +924,798 @@
           height: auto;
         }
 
-        .content {
-          padding: 28px 18px 48px;
-        }
-
-        .topbar {
-          padding: 10px 18px;
-        }
-
-        .token-selector {
-          width: min(100%, 380px);
-        }
-
-        .grid-2,
-        .packages {
+        .profile-row {
           grid-template-columns: 1fr;
-        }
-
-        .form-row {
-          grid-template-columns: 1fr;
-          gap: 8px;
-          padding: 15px 0;
-        }
-
-        .hero-balance {
-          align-items: flex-start;
-          flex-direction: column;
         }
       }
     </style>
   </head>
   <body>
-    <div class="auth-screen" id="authScreen">
-      <form class="auth-panel" id="authForm">
-        <div class="brand">
-          <div class="brand-mark">↗</div>
-          <div class="brand-text">INSIDER CASH</div>
+    <section class="login" id="loginScreen">
+      <div class="login-art">
+        <div class="login-brand">
+          <div class="cat-logo">◕</div>
+          <div>INSIDER<br />CASH</div>
         </div>
-        <h1 style="font-size: 34px">Demo Access</h1>
-        <p class="subtle">Enter the demo password to continue.</p>
-        <div style="height: 18px"></div>
-        <input class="input" id="passwordInput" type="password" placeholder="Password" autocomplete="current-password" autofocus />
-        <div class="auth-error" id="authError"></div>
-        <button class="btn btn-primary" type="submit" style="width: 100%; margin-top: 8px">Enter Demo</button>
-      </form>
-    </div>
+      </div>
+      <div class="login-panel">
+        <div class="login-card">
+          <div class="mini-brand">
+            <div class="mini-mark">↗</div>
+            <div class="mini-word">RENA</div>
+          </div>
+          <h1>Sign up / Sign in</h1>
+          <div class="auth-stack">
+            <button class="auth-button primary" type="button" data-login="wallet">Connect with Wallet</button>
+            <button class="auth-button" type="button" data-login="google">Continue with Google</button>
+            <button class="auth-button" type="button" data-login="passkey">Continue with Passkey</button>
+            <button class="auth-button" type="button" id="showEmailLogin">Continue with Email</button>
+            <div class="email-expand hidden" id="emailLogin">
+              <div class="inline-field">
+                <input class="input" id="loginEmail" value="gg@renalabs.xyz" />
+                <button class="profile-action" type="button">Send Code</button>
+              </div>
+              <div class="code-row">
+                <input class="input" maxlength="1" value="1" />
+                <input class="input" maxlength="1" value="2" />
+                <input class="input" maxlength="1" value="3" />
+                <input class="input" maxlength="1" value="4" />
+                <input class="input" maxlength="1" value="5" />
+                <input class="input" maxlength="1" value="6" />
+              </div>
+              <button class="primary-wide" type="button" data-login="email">Verify and Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <div class="app">
+    <section class="app hidden" id="appScreen">
       <aside class="sidebar">
         <div class="brand">
           <div class="brand-mark">↗</div>
           <div class="brand-text">INSIDER CASH</div>
         </div>
-
-        <nav>
-          <div class="nav-label">Navigation</div>
-          <div class="nav">
-            <button class="nav-item" data-page="overview"><span class="nav-icon">▦</span>CEX Overview</button>
-            <div class="nav-section">
-              <button class="nav-parent"><span class="nav-icon">CEX</span>CEX Monitoring<span class="chevron">⌄</span></button>
-              <div class="nav-children">
-                <button class="nav-item" data-page="monitoring"><span class="nav-icon">≋</span>Liquidity</button>
-                <button class="nav-item" data-page="monitoring"><span class="nav-icon">◎</span>KPI</button>
-              </div>
-            </div>
-            <button class="nav-item active" data-page="tokens"><span class="nav-icon">◉</span>My Tokens</button>
-            <div class="nav-section">
-              <button class="nav-parent"><span class="nav-icon">⚙</span>Account<span class="chevron">⌄</span></button>
-              <div class="nav-children">
-                <button class="nav-item" data-page="profile"><span class="nav-icon">☻</span>Profile</button>
-                <button class="nav-item" data-page="proof"><span class="nav-icon">⌁</span>API & TEE Proof</button>
-                <button class="nav-item" data-page="credits"><span class="nav-icon">◎</span>Credits</button>
-                <button class="nav-item" data-page="points"><span class="nav-icon">✦</span>Points</button>
-                <button class="nav-item" data-page="kpi"><span class="nav-icon">☷</span>KPI Configuration</button>
-              </div>
+        <div class="nav-label">Navigation</div>
+        <nav class="nav">
+          <button class="nav-item" data-page="overview"><span class="nav-icon">▦</span>CEX Overview</button>
+          <div>
+            <button class="nav-parent" type="button"><span class="nav-icon">CEX</span>CEX Monitoring<span style="margin-left:auto">⌄</span></button>
+            <div class="nav-children">
+              <button class="nav-item" data-page="monitoring"><span class="nav-icon">≋</span>Liquidity</button>
+              <button class="nav-item" data-page="monitoring"><span class="nav-icon">◎</span>KPI</button>
             </div>
           </div>
+          <button class="nav-item active" data-page="profile"><span class="nav-icon">☻</span>Profile</button>
+          <button class="nav-item" data-page="proof"><span class="nav-icon">⌁</span>API & TEE Proof</button>
+          <button class="nav-item" data-page="credits"><span class="nav-icon">◎</span>My Credits</button>
+          <button class="nav-item" data-page="points"><span class="nav-icon">✦</span>My Points</button>
+          <button class="nav-item" data-page="token"><span class="nav-icon">◉</span>My Token</button>
+          <button class="nav-item" data-page="referral"><span class="nav-icon">↗</span>My Referral</button>
+          <button class="nav-item" data-page="kpi"><span class="nav-icon">☷</span>KPI Configuration</button>
+          <button class="nav-item" data-page="rules"><span class="nav-icon">§</span>Rules</button>
         </nav>
-
-        <div class="account-card">
-          <div class="avatar">GG</div>
-          <div class="account-meta">
-            <div class="account-name">GG</div>
-            <div class="account-email">gg@renalabs.xyz</div>
-          </div>
-        </div>
       </aside>
 
       <main class="main">
         <header class="topbar">
-          <div class="token-selector">
-            <button class="token-button" id="tokenButton" type="button">
-              <span class="token-dot" id="tokenDot">N</span>
-              <span class="token-copy">
-                <span class="token-symbol" id="tokenSymbol">NEX</span>
-                <span class="token-name" id="tokenName">Nexpace</span>
-              </span>
-              <span class="chevron">⌄</span>
+          <div class="top-control">
+            <button class="top-pill" id="analysisButton" type="button">
+              <span class="token-logo" id="analysisLogo">R</span>
+              <span id="analysisLabel">Select Token</span>
+              <span>⌄</span>
             </button>
-            <div class="token-menu" id="tokenMenu">
-              <div class="menu-label">Unlocked tokens</div>
-              <div id="tokenOptions"></div>
+            <div class="dropdown" id="analysisMenu"></div>
+          </div>
+          <button class="top-pill" type="button" data-page-button="credits" id="topCredits">900,000</button>
+          <button class="btn btn-pink" type="button" data-page-button="credits">Buy</button>
+          <div class="top-control">
+            <button class="top-pill" type="button" id="walletButton">Connect Wallet</button>
+            <div class="dropdown" id="walletMenu">
+              <button type="button" data-page-button="profile">Profile</button>
+              <button type="button" id="topDisconnectWallet">Disconnect</button>
             </div>
           </div>
-          <div class="top-spacer"></div>
-          <div class="pill">◉ <span id="creditsPill">12 Credits</span></div>
-          <button class="btn btn-primary" type="button" data-open-modal="buyCredits">Buy</button>
-          <button class="icon-button" type="button" data-page-button="profile">GG</button>
         </header>
 
         <div class="content">
           <section class="page" id="page-overview">
-            <div class="page-header">
-              <div>
-                <h1>Overview</h1>
-                <div class="subtle"><span class="current-token">NEX · Nexpace</span></div>
-              </div>
-            </div>
-            <div class="surface placeholder">
-              <div>
-                <h2>Overview is intentionally out of scope for this demo.</h2>
-                <p class="subtle">The selected token still updates globally from the top search box.</p>
-              </div>
-            </div>
+            <div class="page-head"><h1>CEX Overview</h1></div>
+            <div class="surface pad"><h2>Existing page kept as-is.</h2></div>
           </section>
 
           <section class="page" id="page-monitoring">
-            <div class="page-header">
-              <div>
-                <h1>CEX Monitoring</h1>
-                <div class="subtle"><span class="current-token">NEX · Nexpace</span></div>
-              </div>
-            </div>
-            <div class="surface placeholder">
-              <div>
-                <h2>Monitoring is intentionally out of scope for this demo.</h2>
-                <p class="subtle">This page keeps the current product behavior later.</p>
-              </div>
-            </div>
+            <div class="page-head"><h1>CEX Monitoring</h1></div>
+            <div class="surface pad"><h2>Existing page kept as-is.</h2></div>
           </section>
 
-          <section class="page active" id="page-tokens">
-            <div class="page-header">
+          <section class="page active" id="page-profile">
+            <div class="page-head"><h1>Profile</h1></div>
+            <div class="profile-top">
+              <div class="profile-avatar">◕</div>
               <div>
-                <h1>My Tokens</h1>
-                <div class="subtle">Buy token analysis access and manage active tokens.</div>
+                <h2>GG</h2>
+                <div class="profile-sub">Joined May 2026</div>
+              </div>
+              <button class="profile-action" type="button">Edit Name</button>
+            </div>
+            <div style="border-top: 1px solid var(--line); padding-top: 34px">
+              <h3 class="section-title">Personal Information</h3>
+              <div class="profile-row">
+                <div class="profile-label">Email</div>
+                <div class="value-box" id="emailValue"></div>
+                <button class="profile-action hidden" type="button" id="changeEmail">Change Email</button>
+                <button class="profile-action hidden" type="button" id="disconnectEmail">Disconnect</button>
+                <div></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label">Wallet</div>
+                <div class="value-box" id="walletValue"></div>
+                <button class="profile-action hidden" type="button" id="connectWalletProfile">Connect Wallet</button>
+                <button class="profile-action hidden" type="button" id="disconnectWalletProfile">Disconnect</button>
+                <div></div>
               </div>
             </div>
-
-            <div class="grid-2">
-              <div class="surface pad">
-                <h2>Buy Token Analysis</h2>
-                <p class="subtle">Search a token, choose a plan, then unlock it with credits.</p>
-                <div style="height: 18px"></div>
-                <input class="input" id="unlockSearch" value="SOL · Solana" aria-label="Search token to unlock" />
-                <div style="height: 18px"></div>
-                <div class="segmented" id="planSegments">
-                  <button class="segment" data-plan="1 Day">1 Day</button>
-                  <button class="segment" data-plan="2 Weeks">2 Weeks</button>
-                  <button class="segment active" data-plan="Pro">Pro</button>
-                </div>
-                <div class="plan-copy">
-                  <div class="cost"><span id="planCost">12</span> <span class="balance-unit">credits</span></div>
-                </div>
-                <p class="subtle" id="planDesc">1 month access + 1 month history.</p>
-                <div style="height: 18px"></div>
-                <button class="btn btn-primary" type="button" id="buyAnalysis">Buy Analysis</button>
-              </div>
-
-              <div class="surface pad">
-                <h2>Active Token List</h2>
-                <p class="subtle">Only active tokens appear in the top token selector.</p>
-                <div style="height: 12px"></div>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Token</th>
-                      <th>Plan</th>
-                      <th>Expires</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody id="activeTokenRows"></tbody>
-                </table>
-              </div>
-            </div>
-          </section>
-
-          <section class="page" id="page-profile">
-            <div class="page-header">
-              <div>
-                <h1>Profile</h1>
-                <div class="subtle">Manage identity, wallet, and passkeys.</div>
-              </div>
-            </div>
-            <div class="surface pad">
-              <div class="identity">
-                <div class="avatar">GG</div>
+            <div style="margin-top: 54px">
+              <h3 class="section-title">Security Settings</h3>
+              <div class="passkey-card">
+                <div style="font-size: 28px">◉</div>
                 <div>
-                  <h2>GG</h2>
-                  <div class="subtle">gg@renalabs.xyz · Verified</div>
+                  <h3>Passkeys</h3>
+                  <div class="muted" style="margin-top: 6px">Optional</div>
                 </div>
-                <div class="top-spacer"></div>
-                <button class="btn btn-secondary" type="button" data-toast="Profile editing is ready for the real app.">Edit Profile</button>
-              </div>
-              <div class="form-row">
-                <div class="label">Name</div>
-                <div class="value">GG</div>
-                <button class="text-btn" type="button" data-toast="Name edit clicked.">Edit</button>
-              </div>
-              <div class="form-row">
-                <div class="label">Email</div>
-                <div class="value">gg@renalabs.xyz <span class="tag green">Verified</span></div>
-                <button class="text-btn muted" type="button">Primary</button>
-              </div>
-              <div class="form-row">
-                <div class="label">Wallet Address</div>
-                <div class="value">0x8f...21A9</div>
-                <button class="text-btn" type="button" data-toast="Wallet change flow opened.">Change Wallet</button>
-              </div>
-              <div class="form-row">
-                <div class="label">Passkey</div>
-                <div class="value">Enabled <span class="tag pink">Last used today</span></div>
-                <div class="row-actions">
-                  <button class="text-btn" type="button" data-toast="Manage passkey clicked.">Manage</button>
-                  <button class="text-btn" type="button" data-toast="Add passkey clicked.">Add</button>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="label">Security</div>
-                <div class="value">Last sign-in Jun 27, 2026</div>
-                <button class="text-btn muted" type="button">Healthy</button>
+                <button class="profile-action" type="button" id="addPasskey">Add Passkey</button>
               </div>
             </div>
           </section>
 
           <section class="page" id="page-proof">
-            <div class="page-header">
-              <div>
-                <h1>API & TEE Proof</h1>
-                <div class="subtle">Connect exchange accounts and generate onchain proof for verified analysis.</div>
-              </div>
-              <button class="btn btn-primary" type="button" data-open-modal="exchange">Add Exchange</button>
+            <div class="page-head">
+              <h1>API & TEE Proof</h1>
+              <button class="btn btn-pink" type="button" id="addExchange">Add Exchange</button>
             </div>
-            <div class="surface pad proof-list">
+            <div class="surface pad">
               <table class="table">
                 <thead>
-                  <tr>
-                    <th>Exchange</th>
-                    <th>Account Name</th>
-                    <th>API Status</th>
-                    <th>TEE Proof</th>
-                    <th>Last Updated</th>
-                    <th>Actions</th>
-                  </tr>
+                  <tr><th>Exchange</th><th>Account Name</th><th>API Status</th><th>TEE Proof</th><th>Last Updated</th><th>Actions</th></tr>
                 </thead>
                 <tbody id="exchangeRows"></tbody>
               </table>
-              <button class="add-row" type="button" data-open-modal="exchange">+ Add Exchange Account</button>
             </div>
           </section>
 
           <section class="page" id="page-credits">
-            <div class="page-header">
-              <div>
-                <h1>Credits</h1>
-                <div class="subtle">Credits are used to buy token analysis access.</div>
-              </div>
-              <button class="btn btn-primary" type="button" data-open-modal="buyCredits">Buy Credits</button>
-            </div>
+            <div class="page-head"><h1>My Credits</h1></div>
             <div class="stack">
-              <div class="surface pad hero-balance">
-                <div>
-                  <div class="balance-number"><span id="creditsBalance">12</span> <span class="balance-unit">Credits</span></div>
-                  <div class="subtle">Available balance</div>
-                </div>
-                <div class="segmented">
-                  <button class="segment active">Stripe</button>
-                  <button class="segment">Crypto</button>
-                </div>
+              <div class="surface pad balance-card">
+                <div class="balance-label">Available Balance</div>
+                <div class="balance-number" id="creditsBalance">900,000</div>
               </div>
               <div class="surface pad">
                 <h2>Buy Credits</h2>
-                <div style="height: 16px"></div>
-                <div class="packages" id="packages">
-                  <button class="package" data-credits="10" data-price="$9"><strong>10 Credits</strong><span>$9</span></button>
-                  <button class="package active" data-credits="30" data-price="$24"><strong>30 Credits</strong><span>$24</span></button>
-                  <button class="package" data-credits="100" data-price="$69"><strong>100 Credits</strong><span>$69</span></button>
-                  <button class="package" data-credits="0" data-price="Custom"><strong>Custom</strong><span>Choose amount</span></button>
+                <div class="packages" id="creditPackages">
+                  <button class="package" type="button" data-package="10"><strong>10 Credits</strong><span>$10</span></button>
+                  <button class="package active" type="button" data-package="100"><strong>100 Credits</strong><span>$100</span></button>
+                  <button class="package" type="button" data-package="1000"><strong>1000 Credits</strong><span>$1000</span></button>
+                  <div class="package">
+                    <strong>Custom</strong>
+                    <input class="input" id="customCredits" placeholder="Enter amount" />
+                  </div>
                 </div>
-                <div style="height: 16px"></div>
-                <button class="btn btn-primary" type="button" id="purchasePackage">Purchase Selected</button>
+                <div class="payment-row">
+                  <button class="payment-pill active" type="button" data-payment="Fiat">Fiat</button>
+                  <button class="payment-pill" type="button" data-payment="Crypto">Crypto</button>
+                  <button class="btn btn-pink" type="button" id="purchaseCredits">Purchase</button>
+                </div>
               </div>
               <div class="surface pad">
                 <h2>Credit History</h2>
                 <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Type</th>
-                      <th>Detail</th>
-                      <th>Amount</th>
-                      <th>Balance</th>
-                    </tr>
-                  </thead>
-                  <tbody id="creditHistoryRows"></tbody>
+                  <thead><tr><th>Date</th><th>Type</th><th>Detail</th><th>Amount</th><th>Balance</th></tr></thead>
+                  <tbody id="creditRows"></tbody>
                 </table>
+                <div class="pagination"><button class="page-btn">Previous</button><button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">Next</button></div>
               </div>
             </div>
           </section>
 
           <section class="page" id="page-points">
-            <div class="page-header">
-              <div>
-                <h1>Points</h1>
-                <div class="subtle">Points record contribution and reputation. They are not spendable credits.</div>
+            <div class="page-head"><h1>My Points</h1></div>
+            <div class="stack">
+              <div class="surface pad balance-card">
+                <div class="balance-number" style="font-size: 48px">My Point: 12,000</div>
+              </div>
+              <div class="surface pad">
+                <h2>Point History</h2>
+                <table class="table">
+                  <thead><tr><th>Date</th><th>Activity</th><th>Points</th><th>Balance</th></tr></thead>
+                  <tbody id="pointRows"></tbody>
+                </table>
+                <div class="pagination"><button class="page-btn">Previous</button><button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">Next</button></div>
               </div>
             </div>
-            <div class="stack">
+          </section>
+
+          <section class="page" id="page-token">
+            <div class="page-head"><h1>My Analysis</h1></div>
+            <div class="grid-2">
               <div class="surface pad">
-                <div class="balance-number">1,240 <span class="balance-unit">Points</span></div>
-                <div class="subtle">Contribution record</div>
-              </div>
-              <div class="surface pad">
-                <h2>Points Rules</h2>
-                <div style="height: 14px"></div>
-                <div class="rules">
-                  <div class="rule"><span>Connect exchange API</span><strong>+100</strong></div>
-                  <div class="rule"><span>Generate TEE proof</span><strong>+250</strong></div>
-                  <div class="rule"><span>Keep account active</span><strong>+10/day</strong></div>
-                  <div class="rule"><span>Contribute verified trading data</span><strong>+50/week</strong></div>
-                  <div class="rule"><span>Invite verified user</span><strong>+500</strong></div>
+                <h2>Unlock Token Analysis</h2>
+                <div class="select-wrap">
+                  <button class="select-field" type="button" id="tokenSearch">
+                    <span id="tokenSearchLabel">Select token by name, symbol, or address</span><span>⌄</span>
+                  </button>
+                  <div class="token-results" id="tokenResults"></div>
                 </div>
+                <div class="plans" id="plans"></div>
+                <div class="limit">Daily Limit: 2 Token Analysis (Include 1 Pro Analysis). Unlock, Upgrade, and Extend all count toward this limit.</div>
+                <button class="primary-wide" type="button" id="confirmAnalysis" disabled>Confirm</button>
               </div>
               <div class="surface pad">
-                <h2>Points History</h2>
+                <h2>Active Token Analysis</h2>
                 <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Activity</th>
-                      <th>Points</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Jun 26 2026</td><td>TEE proof verified</td><td>+250</td><td><span class="tag green">Confirmed</span></td></tr>
-                    <tr><td>Jun 25 2026</td><td>Connected Coinbase API</td><td>+100</td><td><span class="tag green">Confirmed</span></td></tr>
-                    <tr><td>Jun 25 2026</td><td>Daily active account</td><td>+10</td><td><span class="tag green">Confirmed</span></td></tr>
-                    <tr><td>Jun 24 2026</td><td>Verified trading data contribution</td><td>+50</td><td><span class="tag green">Confirmed</span></td></tr>
-                  </tbody>
+                  <thead><tr><th>Token</th><th>Plan</th><th>Expires</th><th>Status</th><th>Action</th></tr></thead>
+                  <tbody id="analysisRows"></tbody>
                 </table>
               </div>
             </div>
           </section>
 
-          <section class="page" id="page-kpi">
-            <div class="page-header">
-              <div>
-                <h1>KPI Configuration</h1>
-                <div class="subtle">Kept from the original product.</div>
+          <section class="page" id="page-referral">
+            <div class="page-head"><h1>My Referral</h1></div>
+            <div class="stack">
+              <div class="surface pad ref-top">
+                <div>
+                  <div class="ref-row"><strong>My Referral Code:</strong><div class="input" style="display:flex;align-items:center">GG2026</div><button class="profile-action" type="button" data-copy="GG2026">Copy</button></div>
+                  <div class="ref-row"><strong>Referral Link:</strong><div class="input" style="display:flex;align-items:center">https://insider.cash/signup?ref=GG2026</div><button class="profile-action" type="button" data-copy="link">Copy</button></div>
+                </div>
+                <div>
+                  <div style="font-weight: 750; margin-bottom: 12px">Who Refer me:</div>
+                  <div class="inline-field">
+                    <input class="input" id="whoReferMe" placeholder="Referral code" />
+                    <button class="profile-action" type="button" id="confirmReferral">Confirm</button>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="surface placeholder">
-              <div>
-                <h2>KPI Configuration is intentionally not redesigned.</h2>
-                <p class="subtle">This demo focuses on consumer account and token access flows.</p>
+              <div class="metrics">
+                <div class="metric"><span>Refer New Users</span><strong>12</strong></div>
+                <div class="metric"><span>CEX Qualified</span><strong>5</strong></div>
+                <div class="metric"><span>TEE Qualified</span><strong>3</strong></div>
               </div>
             </div>
           </section>
+
+          <section class="page" id="page-rules">
+            <div class="page-head"><h1>Rules</h1></div>
+            <div class="rules-doc">
+              <div class="surface pad">
+                <h2>Credits</h2>
+                <p>Credits are used to unlock token analysis.</p>
+                <h3>How to Earn Credits</h3>
+                <table class="table"><thead><tr><th>Action</th><th>Credits</th></tr></thead><tbody>
+                  <tr><td>Create your account</td><td>+10</td></tr>
+                  <tr><td>Connect a new exchange account</td><td>+10</td></tr>
+                  <tr><td>Create a privacy proof</td><td>+1</td></tr>
+                  <tr><td>Invite a new user who signs up</td><td>+5 each</td></tr>
+                  <tr><td>Invited user connects their first exchange</td><td>+20 each</td></tr>
+                  <tr><td>Invited user creates their first privacy proof</td><td>+10 each</td></tr>
+                  <tr><td>Buy credits</td><td>1 USDC = 1 credit</td></tr>
+                </tbody></table>
+                <h3>Credit Rules</h3>
+                <ul>
+                  <li>Credits do not expire.</li>
+                  <li>There is no maximum credit balance.</li>
+                  <li>You can earn unlimited credits from privacy proofs.</li>
+                  <li>Each exchange connection reward can only be earned once per exchange.</li>
+                  <li>Each account can connect up to 10 exchanges.</li>
+                </ul>
+              </div>
+              <div class="surface pad">
+                <h2>Points</h2>
+                <p>Points measure your long-term contribution and reputation inside Insider.Cash.</p>
+                <h3>How to Earn Points</h3>
+                <table class="table"><thead><tr><th>Action</th><th>Points</th></tr></thead><tbody>
+                  <tr><td>Connect a new exchange account</td><td>+300</td></tr>
+                  <tr><td>Create a privacy proof</td><td>+10</td></tr>
+                  <tr><td>Invite a new user who signs up</td><td>+100 each</td></tr>
+                  <tr><td>Invited user connects their first exchange</td><td>+300 each</td></tr>
+                  <tr><td>Invited user creates their first privacy proof</td><td>+100 each</td></tr>
+                </tbody></table>
+                <h3>Point Rules</h3>
+                <ul>
+                  <li>Points cannot be purchased.</li>
+                  <li>Points cannot be directly converted into credits.</li>
+                  <li>Points are not used to buy analysis.</li>
+                  <li>You can earn up to 100 points per day from privacy proofs.</li>
+                  <li>After reaching the daily proof point limit, you can still earn credits from privacy proofs.</li>
+                </ul>
+                <p>Points may be used for reputation levels, public profiles, leaderboards, and future rewards.</p>
+              </div>
+              <div class="surface pad">
+                <h2>Token Analysis Plans</h2>
+                <p>Use credits to unlock token analysis in <strong>My Token</strong>.</p>
+                <table class="table"><thead><tr><th>Plan</th><th>Cost</th><th>Access Period</th><th>Analysis Coverage</th></tr></thead><tbody>
+                  <tr><td>Daily</td><td>10 credits</td><td>1 day + 1 extra day</td><td>Recent 3-day analysis</td></tr>
+                  <tr><td>Extended</td><td>100 credits</td><td>2 weeks + 1 extra day</td><td>Recent 3-day analysis</td></tr>
+                  <tr><td>Pro</td><td>1000 credits</td><td>1 month + 1 extra day</td><td>Past 1 month + next 1 month analysis</td></tr>
+                </tbody></table>
+                <h3>Analysis Rules</h3>
+                <ul>
+                  <li>You can unlock up to 2 tokens per day.</li>
+                  <li>Daily, Extended, and Pro each count as 1 token unlock.</li>
+                  <li>There is no daily credit spending limit.</li>
+                  <li>Token analysis is not permanent.</li>
+                  <li>After access expires, you need to unlock it again.</li>
+                  <li>Analysis may take up to 12 hours to become available.</li>
+                  <li>We add 1 extra day to every plan so you always have enough time to view it.</li>
+                </ul>
+              </div>
+              <div class="surface pad">
+                <h2>Upgrades</h2>
+                <p>You can upgrade a token plan at any time.</p>
+                <table class="table"><thead><tr><th>Upgrade</th><th>Cost</th></tr></thead><tbody>
+                  <tr><td>Daily to Extended</td><td>100 credits</td></tr>
+                  <tr><td>Daily to Pro</td><td>1000 credits</td></tr>
+                  <tr><td>Extended to Pro</td><td>1000 credits</td></tr>
+                </tbody></table>
+                <h3>Upgrade rules:</h3>
+                <ul>
+                  <li>Upgrades start a new access period.</li>
+                  <li>Previously spent credits are not refunded.</li>
+                  <li>Previously spent credits are not deducted from the upgrade price.</li>
+                  <li>Upgraded plans also receive the extra 1-day access buffer.</li>
+                </ul>
+              </div>
+              <div class="surface pad">
+                <h2>Referrals</h2>
+                <p>Every user has a referral code and invite link.</p>
+                <h3>Referral Rewards</h3>
+                <table class="table"><thead><tr><th>Referral Milestone</th><th>You Get</th><th>Your Friend Gets</th></tr></thead><tbody>
+                  <tr><td>Friend signs up</td><td>+5 credits / +100 points</td><td>+5 credits / +100 points</td></tr>
+                  <tr><td>Friend connects first exchange</td><td>+20 credits / +300 points</td><td>+20 credits / +300 points</td></tr>
+                  <tr><td>Friend creates first privacy proof</td><td>+10 credits / +100 points</td><td>+10 credits / +100 points</td></tr>
+                </tbody></table>
+                <h3>Referral Rules</h3>
+                <ul>
+                  <li>You can share your referral link anytime.</li>
+                  <li>You can enter someone else’s referral code once.</li>
+                  <li>Once a referral code is entered, it cannot be changed.</li>
+                  <li>You cannot use your own referral code.</li>
+                  <li>If you sign up through an invite link, the referral is applied automatically.</li>
+                  <li>Referral rewards are only given once for each milestone.</li>
+                </ul>
+              </div>
+              <div class="surface pad">
+                <h2>Account & Profile</h2>
+                <p>You can sign up and log in with:</p>
+                <ul><li>Email</li><li>Wallet</li></ul>
+                <p>You can also add:</p>
+                <ul><li>Passkey</li></ul>
+                <p>Your profile can include your email, wallet, and passkey settings.</p>
+                <p>Signup rewards are given once per account. Adding a new login method later does not create another signup reward.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="page-kpi">
+            <div class="page-head"><h1>KPI Configuration</h1></div>
+            <div class="surface pad"><h2>Existing page kept as-is.</h2></div>
+          </section>
         </div>
       </main>
-    </div>
+    </section>
 
     <div class="modal-backdrop" id="modalBackdrop">
       <div class="modal" id="modal"></div>
     </div>
-
     <div class="toast" id="toast"></div>
 
     <script>
       const state = {
-        selectedToken: { symbol: "NEX", name: "Nexpace", color: "pink", initial: "N" },
-        credits: 12,
-        selectedPlan: "Pro",
-        selectedPackage: { credits: 30, price: "$24" },
-        activeTokens: [
-          { symbol: "NEX", name: "Nexpace", plan: "Pro", expires: "Jul 27 2026", status: "Active", color: "pink", initial: "N" },
-          { symbol: "BTC", name: "Bitcoin", plan: "2 Weeks", expires: "Jul 06 2026", status: "Active", color: "orange", initial: "B" },
-          { symbol: "ETH", name: "Ethereum", plan: "1 Day", expires: "Jun 28 2026", status: "Active", color: "gray", initial: "E" }
+        authed: false,
+        email: "",
+        wallet: "",
+        credits: 900000,
+        selectedAnalysis: null,
+        selectedUnlockToken: null,
+        selectedPlan: "Daily",
+        selectedPackage: 100,
+        payment: "Fiat",
+        referralConfirmed: false,
+        activeAnalyses: [
+          { symbol: "NEX", name: "Nexpace", plan: "Pro", expires: "Jul 27 2026", color: "pink", initial: "N" },
+          { symbol: "BTC", name: "Bitcoin", plan: "Extended", expires: "Jul 06 2026", color: "orange", initial: "B" },
+          { symbol: "ETH", name: "Ethereum", plan: "Daily", expires: "Jun 28 2026", color: "gray", initial: "E" }
+        ],
+        tokens: [
+          { symbol: "BTC", name: "Bitcoin", color: "orange", initial: "B" },
+          { symbol: "SLX", name: "Solstice", color: "pink", initial: "S" },
+          { symbol: "PENGU", name: "Pudgy Penguins", color: "gray", initial: "P" },
+          { symbol: "SOL", name: "Solana", color: "purple", initial: "S" }
         ],
         exchanges: [
-          { exchange: "Coinbase", account: "acct-01", api: "Working", proof: "Onchain verified", updated: "May 19 2026", proofClass: "green" },
-          { exchange: "Kraken", account: "acct-02", api: "Working", proof: "Not generated", updated: "May 19 2026", proofClass: "" },
-          { exchange: "Bitget", account: "acct-03", api: "Passphrase required", proof: "Wallet required", updated: "May 25 2026", proofClass: "amber" },
-          { exchange: "KuCoin", account: "acct-04", api: "Working", proof: "Proof pending", updated: "May 20 2026", proofClass: "pink" }
-        ],
-        creditHistory: [
-          { date: "Jun 26 2026", type: "Purchase", detail: "Stripe", amount: "+20", balance: 20 },
-          { date: "Jun 26 2026", type: "Unlock", detail: "NEX Pro", amount: "-12", balance: 8 },
-          { date: "Jun 25 2026", type: "Signup Bonus", detail: "Welcome credits", amount: "+2", balance: 2 },
-          { date: "Jun 24 2026", type: "Unlock", detail: "ETH 1 Day", amount: "-1", balance: 0 }
+          { exchange: "Coinbase", account: "acct-01", api: "Working", proof: "Onchain verified", updated: "May 19 2026" },
+          { exchange: "Kraken", account: "acct-02", api: "Working", proof: "Not generated", updated: "May 19 2026" },
+          { exchange: "Bitget", account: "acct-03", api: "Passphrase required", proof: "Wallet required", updated: "May 25 2026" }
         ]
       };
 
-      const demoPassword = "rena";
-
-      function initAuth() {
-        const authScreen = document.getElementById("authScreen");
-        const authForm = document.getElementById("authForm");
-        const passwordInput = document.getElementById("passwordInput");
-        const authError = document.getElementById("authError");
-
-        if (window.sessionStorage.getItem("insider-demo-auth") === "ok") {
-          authScreen.classList.add("hidden");
-        }
-
-        authForm.addEventListener("submit", (event) => {
-          event.preventDefault();
-          if (passwordInput.value === demoPassword) {
-            window.sessionStorage.setItem("insider-demo-auth", "ok");
-            authScreen.classList.add("hidden");
-            authError.textContent = "";
-            return;
-          }
-          authError.textContent = "Incorrect password.";
-          passwordInput.select();
-        });
-      }
-
       const planMeta = {
-        "1 Day": { cost: 1, desc: "1 day access for quick token checks." },
-        "2 Weeks": { cost: 5, desc: "2 weeks access for active monitoring." },
-        Pro: { cost: 12, desc: "1 month access + 1 month history." }
+        Daily: { cost: 10, copy: "Recent 3-day analysis", period: "1 day + 1 extra day" },
+        Extended: { cost: 100, copy: "Recent 3-day analysis", period: "2 weeks + 1 extra day" },
+        Pro: { cost: 1000, copy: "Past 1 month + next 1 month analysis", period: "1 month + 1 extra day" }
       };
 
+      const creditHistory = [
+        ["Jun 28 2026", "TEE Bonus", "", "+20", "900,000"],
+        ["Jun 28 2026", "Purchase", "Fiat", "+100", "899,980"],
+        ["Jun 27 2026", "Unlock", "", "-1000", "899,880"],
+        ["Jun 27 2026", "Referral Bonus", "", "+5", "900,880"],
+        ["Jun 26 2026", "Purchase", "Crypto", "+1000", "900,875"],
+        ["Jun 26 2026", "Signup Bonus", "", "+10", "899,875"],
+        ["Jun 25 2026", "Unlock", "", "-100", "899,865"],
+        ["Jun 25 2026", "TEE Bonus", "", "+12", "899,965"],
+        ["Jun 24 2026", "Unlock", "", "-10", "899,953"],
+        ["Jun 24 2026", "Referral Bonus", "", "+20", "899,963"]
+      ];
+
+      const pointHistory = [
+        ["Jun 28 2026", "TEE Bonus", "+100", "12,000"],
+        ["Jun 28 2026", "New API Connect", "+300", "11,900"],
+        ["Jun 27 2026", "Referral Bonus", "+100", "11,600"],
+        ["Jun 27 2026", "TEE Bonus", "+10", "11,500"],
+        ["Jun 26 2026", "New API Connect", "+300", "11,490"],
+        ["Jun 26 2026", "Referral Bonus", "+300", "11,190"],
+        ["Jun 25 2026", "TEE Bonus", "+10", "10,890"],
+        ["Jun 25 2026", "Referral Bonus", "+100", "10,880"],
+        ["Jun 24 2026", "New API Connect", "+300", "10,780"],
+        ["Jun 24 2026", "TEE Bonus", "+10", "10,480"]
+      ];
+
+      function $(selector) {
+        return document.querySelector(selector);
+      }
+
+      function $all(selector) {
+        return [...document.querySelectorAll(selector)];
+      }
+
       function showToast(message) {
-        const toast = document.getElementById("toast");
+        const toast = $("#toast");
         toast.textContent = message;
         toast.classList.add("show");
-        window.clearTimeout(showToast.timer);
-        showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2200);
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => toast.classList.remove("show"), 1800);
+      }
+
+      function formatCredits(value) {
+        return value.toLocaleString("en-US");
+      }
+
+      function login(method) {
+        if (method === "wallet") {
+          state.wallet = "0x8f...21A9";
+          state.email = "";
+        } else if (method === "passkey") {
+          state.wallet = "0x8f...21A9";
+          state.email = "gg@renalabs.xyz";
+        } else {
+          state.email = $("#loginEmail").value || "gg@renalabs.xyz";
+          state.wallet = "";
+        }
+        state.authed = true;
+        $("#loginScreen").classList.add("hidden");
+        $("#appScreen").classList.remove("hidden");
+        goToPage("profile");
+        renderAll();
+      }
+
+      function logoutIfNoIdentity() {
+        if (!state.email && !state.wallet) {
+          state.authed = false;
+          $("#appScreen").classList.add("hidden");
+          $("#loginScreen").classList.remove("hidden");
+        }
+      }
+
+      function goToPage(page) {
+        $all(".page").forEach((node) => node.classList.remove("active"));
+        $(`#page-${page}`).classList.add("active");
+        $all(".nav-item").forEach((node) => node.classList.toggle("active", node.dataset.page === page));
       }
 
       function renderTopbar() {
-        document.getElementById("tokenSymbol").textContent = state.selectedToken.symbol;
-        document.getElementById("tokenName").textContent = state.selectedToken.name;
-        document.getElementById("tokenDot").textContent = state.selectedToken.initial;
-        document.getElementById("creditsPill").textContent = `${state.credits} Credits`;
-        document.getElementById("creditsBalance").textContent = state.credits;
-        document.querySelectorAll(".current-token").forEach((node) => {
-          node.textContent = `${state.selectedToken.symbol} · ${state.selectedToken.name}`;
-        });
+        $("#topCredits").textContent = formatCredits(state.credits);
+        if (state.selectedAnalysis) {
+          $("#analysisLogo").textContent = state.selectedAnalysis.initial;
+          $("#analysisLabel").textContent = state.selectedAnalysis.name;
+        } else {
+          $("#analysisLogo").textContent = "R";
+          $("#analysisLabel").textContent = "Select Token";
+        }
+        $("#walletButton").textContent = state.wallet || "Connect Wallet";
       }
 
-      function renderTokenMenu() {
-        const options = document.getElementById("tokenOptions");
-        options.innerHTML = state.activeTokens
-          .map(
-            (token) => `
-              <button class="token-option ${token.symbol === state.selectedToken.symbol ? "active" : ""}" data-token="${token.symbol}" type="button">
-                <span class="mini-token ${token.color}">${token.initial}</span>
-                <span class="token-copy"><strong>${token.symbol}</strong><span class="token-name">${token.name}</span></span>
-              </button>
-            `
-          )
-          .join("");
+      function renderAnalysisMenu() {
+        const menu = $("#analysisMenu");
+        if (!state.activeAnalyses.length) {
+          menu.innerHTML = `<button type="button" data-page-button="token">Go to My Token</button>`;
+          return;
+        }
+        menu.innerHTML = state.activeAnalyses.map((item) => `
+          <button type="button" data-select-analysis="${item.symbol}">
+            <span class="asset-logo ${item.color}">${item.initial}</span>
+            <strong>${item.name}</strong>
+          </button>
+        `).join("");
       }
 
-      function renderActiveTokens() {
-        document.getElementById("activeTokenRows").innerHTML = state.activeTokens
-          .map(
-            (token) => `
-              <tr>
-                <td>
-                  <div class="token-cell">
-                    <span class="mini-token ${token.color}">${token.initial}</span>
-                    <div><strong>${token.symbol}</strong><div class="subtle" style="margin: 2px 0 0">${token.name}</div></div>
-                  </div>
-                </td>
-                <td>${token.plan}</td>
-                <td>${token.expires}</td>
-                <td><span class="tag green">${token.status}</span></td>
-                <td>
-                  <div class="row-actions">
-                    <button class="text-btn" data-view-token="${token.symbol}" type="button">View</button>
-                    <button class="text-btn" data-upgrade-token="${token.symbol}" type="button">Upgrade</button>
-                  </div>
-                </td>
-              </tr>
-            `
-          )
-          .join("");
+      function renderProfile() {
+        const emailValue = $("#emailValue");
+        const walletValue = $("#walletValue");
+        $("#changeEmail").classList.toggle("hidden", !state.email);
+        $("#disconnectEmail").classList.toggle("hidden", !state.email);
+        const connectEmail = !state.email;
+        emailValue.innerHTML = state.email
+          ? `<span>${state.email}</span><span class="tag">✓ Verified</span>`
+          : `<span class="muted">No email connected</span>`;
+        if (connectEmail) {
+          $("#changeEmail").classList.remove("hidden");
+          $("#changeEmail").textContent = "Connect Email";
+          $("#disconnectEmail").classList.add("hidden");
+        } else {
+          $("#changeEmail").textContent = "Change Email";
+        }
+
+        walletValue.innerHTML = state.wallet
+          ? `<span>${state.wallet}</span><span class="tag">✓ Connected</span>`
+          : `<span class="muted">No wallet connected</span>`;
+        $("#connectWalletProfile").classList.toggle("hidden", Boolean(state.wallet));
+        $("#disconnectWalletProfile").classList.toggle("hidden", !state.wallet);
+      }
+
+      function renderPlans() {
+        $("#plans").innerHTML = Object.entries(planMeta).map(([name, meta]) => `
+          <button class="plan-card ${state.selectedPlan === name ? "active" : ""}" type="button" data-plan="${name}">
+            <h3>${name}</h3>
+            <div class="plan-copy">${meta.copy}<br>${meta.period}</div>
+            <div class="price">${meta.cost} Credits</div>
+          </button>
+        `).join("");
+      }
+
+      function renderTokenResults() {
+        $("#tokenResults").innerHTML = state.tokens.map((item, index) => `
+          <button class="result-row ${index === 0 ? "active" : ""}" type="button" data-unlock-token="${item.symbol}">
+            <span class="asset-logo ${item.color}">${item.initial}</span>
+            <span>${item.name}</span>
+            <span class="code">${item.symbol}</span>
+          </button>
+        `).join("");
+      }
+
+      function renderAnalysisRows() {
+        $("#analysisRows").innerHTML = state.activeAnalyses.map((item) => `
+          <tr>
+            <td><div class="token-cell"><span class="asset-logo ${item.color}">${item.initial}</span><div><strong>${item.symbol}</strong><div class="muted">${item.name}</div></div></div></td>
+            <td>${item.plan}</td>
+            <td>${item.expires}</td>
+            <td><span class="tag">Active</span></td>
+            <td><div class="action-row"><button class="small-btn" type="button" data-upgrade="${item.symbol}">Upgrade</button><button class="small-btn" type="button" data-extend="${item.symbol}">Extend</button></div></td>
+          </tr>
+        `).join("");
+      }
+
+      function renderCredits() {
+        $("#creditsBalance").textContent = formatCredits(state.credits);
+        $("#creditRows").innerHTML = creditHistory.map((row) => `
+          <tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>
+        `).join("");
+      }
+
+      function renderPoints() {
+        $("#pointRows").innerHTML = pointHistory.map((row) => `
+          <tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>
+        `).join("");
       }
 
       function renderExchanges() {
-        document.getElementById("exchangeRows").innerHTML = state.exchanges
-          .map(
-            (row, index) => `
-              <tr>
-                <td><div class="token-cell"><span class="exchange-mark">${row.exchange.slice(0, 1)}</span><strong>${row.exchange}</strong></div></td>
-                <td>${row.account}</td>
-                <td><span class="tag ${row.api === "Working" ? "green" : "amber"}">${row.api}</span></td>
-                <td><span class="tag ${row.proofClass}">${row.proof}</span></td>
-                <td>${row.updated}</td>
-                <td>
-                  <div class="row-actions">
-                    <button class="text-btn muted" data-refresh="${index}" type="button">Refresh</button>
-                    <button class="text-btn" data-edit-exchange="${index}" type="button">Edit API</button>
-                    <button class="text-btn" data-proof="${index}" type="button">Generate Proof</button>
-                    <button class="text-btn danger" data-delete-exchange="${index}" type="button">Delete</button>
-                  </div>
-                </td>
-              </tr>
-            `
-          )
-          .join("");
+        $("#exchangeRows").innerHTML = state.exchanges.map((row, index) => `
+          <tr>
+            <td><strong>${row.exchange}</strong></td>
+            <td>${row.account}</td>
+            <td>${row.api}</td>
+            <td>${row.proof}</td>
+            <td>${row.updated}</td>
+            <td><div class="action-row"><button class="small-btn" type="button">Refresh</button><button class="small-btn" type="button">Edit API</button><button class="small-btn" type="button" data-generate-proof="${index}">Generate Proof</button><button class="small-btn" type="button">Delete</button></div></td>
+          </tr>
+        `).join("");
       }
 
-      function renderCreditHistory() {
-        document.getElementById("creditHistoryRows").innerHTML = state.creditHistory
-          .map(
-            (row) => `
-              <tr>
-                <td>${row.date}</td>
-                <td>${row.type}</td>
-                <td>${row.detail}</td>
-                <td>${row.amount}</td>
-                <td>${row.balance}</td>
-              </tr>
-            `
-          )
-          .join("");
-      }
-
-      function renderPlan() {
-        const meta = planMeta[state.selectedPlan];
-        document.getElementById("planCost").textContent = meta.cost;
-        document.getElementById("planDesc").textContent = meta.desc;
+      function renderReferral() {
+        if (state.referralConfirmed) {
+          $("#whoReferMe").value = "ALEX2026";
+          $("#whoReferMe").disabled = true;
+          $("#confirmReferral").textContent = "Confirmed";
+          $("#confirmReferral").disabled = true;
+        }
       }
 
       function renderAll() {
         renderTopbar();
-        renderTokenMenu();
-        renderActiveTokens();
+        renderAnalysisMenu();
+        renderProfile();
+        renderPlans();
+        renderTokenResults();
+        renderAnalysisRows();
+        renderCredits();
+        renderPoints();
         renderExchanges();
-        renderCreditHistory();
-        renderPlan();
+        renderReferral();
       }
 
-      function goToPage(page) {
-        document.querySelectorAll(".page").forEach((node) => node.classList.remove("active"));
-        document.getElementById(`page-${page}`).classList.add("active");
-        document.querySelectorAll(".nav-item").forEach((node) => {
-          node.classList.toggle("active", node.dataset.page === page);
-        });
-      }
-
-      function openModal(type, payload = {}) {
-        const backdrop = document.getElementById("modalBackdrop");
-        const modal = document.getElementById("modal");
-        if (type === "buyCredits") {
-          modal.innerHTML = `
-            <div class="modal-head">
-              <div><h2>Buy Credits</h2><div class="subtle">Add spendable credits to unlock token analysis.</div></div>
-              <button class="icon-button" data-close-modal type="button">×</button>
-            </div>
-            <div class="modal-fields">
-              <button class="package active" data-modal-buy="30" type="button"><strong>30 Credits</strong><span>$24 · Stripe</span></button>
-              <button class="package" data-modal-buy="100" type="button"><strong>100 Credits</strong><span>$69 · Stripe</span></button>
-            </div>
-          `;
-        }
-
-        if (type === "exchange") {
-          modal.innerHTML = `
-            <div class="modal-head">
-              <div><h2>Add Exchange</h2><div class="subtle">Manual API input only for this consumer flow.</div></div>
-              <button class="icon-button" data-close-modal type="button">×</button>
-            </div>
-            <div class="modal-fields">
-              <select class="input" id="exchangeSelect">
-                <option>Binance</option>
-                <option>OKX</option>
-                <option>Bybit</option>
-                <option>Gate</option>
-              </select>
-              <input class="input" id="exchangeAccount" placeholder="Account name" value="acct-05" />
-              <input class="input" placeholder="API Key" />
-              <input class="input" placeholder="API Secret" />
-              <input class="input" placeholder="Passphrase, if required" />
-            </div>
-            <div class="modal-actions">
-              <button class="btn btn-ghost" data-close-modal type="button">Cancel</button>
-              <button class="btn btn-primary" id="saveExchange" type="button">Save Exchange</button>
-            </div>
-          `;
-        }
-
-        if (type === "editExchange") {
-          const row = state.exchanges[payload.index];
-          modal.innerHTML = `
-            <div class="modal-head">
-              <div><h2>Edit API</h2><div class="subtle">${row.exchange} · Manual input</div></div>
-              <button class="icon-button" data-close-modal type="button">×</button>
-            </div>
-            <div class="modal-fields">
-              <input class="input" id="editAccountName" value="${row.account}" />
-              <input class="input" placeholder="API Key" value="••••••••••" />
-              <input class="input" placeholder="API Secret" value="••••••••••" />
-              <input class="input" placeholder="Passphrase, if required" />
-            </div>
-            <div class="modal-actions">
-              <button class="btn btn-ghost" data-close-modal type="button">Cancel</button>
-              <button class="btn btn-primary" id="saveEditExchange" data-index="${payload.index}" type="button">Save API</button>
-            </div>
-          `;
-        }
-
-        backdrop.classList.add("open");
+      function openModal(html) {
+        $("#modal").innerHTML = html;
+        $("#modalBackdrop").classList.add("open");
       }
 
       function closeModal() {
-        document.getElementById("modalBackdrop").classList.remove("open");
+        $("#modalBackdrop").classList.remove("open");
+      }
+
+      function upgradeOptions(plan) {
+        if (plan === "Daily") return ["Extended", "Pro"];
+        if (plan === "Extended") return ["Pro"];
+        return [];
       }
 
       document.addEventListener("click", (event) => {
         const target = event.target.closest("button");
-        const tokenButton = event.target.closest("#tokenButton");
-        const menu = document.getElementById("tokenMenu");
-
-        if (tokenButton) {
-          menu.classList.toggle("open");
+        if (!target) {
+          if (!event.target.closest(".top-control")) {
+            $("#analysisMenu").classList.remove("open");
+            $("#walletMenu").classList.remove("open");
+          }
           return;
         }
 
-        if (!event.target.closest(".token-selector")) {
-          menu.classList.remove("open");
-        }
-
-        if (!target) return;
-
+        if (target.dataset.login) login(target.dataset.login);
+        if (target.id === "showEmailLogin") $("#emailLogin").classList.toggle("hidden");
         if (target.dataset.page) goToPage(target.dataset.page);
         if (target.dataset.pageButton) goToPage(target.dataset.pageButton);
-        if (target.dataset.openModal) openModal(target.dataset.openModal);
-        if (target.dataset.closeModal !== undefined) closeModal();
-        if (target.dataset.toast) showToast(target.dataset.toast);
 
-        if (target.dataset.token) {
-          state.selectedToken = state.activeTokens.find((token) => token.symbol === target.dataset.token);
-          menu.classList.remove("open");
+        if (target.id === "analysisButton") $("#analysisMenu").classList.toggle("open");
+        if (target.id === "walletButton") {
+          if (state.wallet) $("#walletMenu").classList.toggle("open");
+          else {
+            state.wallet = "0x8f...21A9";
+            renderAll();
+          }
+        }
+        if (target.id === "topDisconnectWallet") {
+          state.wallet = "";
+          $("#walletMenu").classList.remove("open");
+          renderAll();
+          logoutIfNoIdentity();
+        }
+        if (!target.closest(".top-control")) {
+          $("#analysisMenu").classList.remove("open");
+          $("#walletMenu").classList.remove("open");
+        }
+
+        if (target.dataset.selectAnalysis) {
+          state.selectedAnalysis = state.activeAnalyses.find((item) => item.symbol === target.dataset.selectAnalysis);
+          $("#analysisMenu").classList.remove("open");
           renderAll();
         }
 
+        if (target.id === "changeEmail") {
+          state.email = state.email ? "new@renalabs.xyz" : "gg@renalabs.xyz";
+          renderAll();
+        }
+        if (target.id === "disconnectEmail") {
+          state.email = "";
+          renderAll();
+          logoutIfNoIdentity();
+        }
+        if (target.id === "connectWalletProfile") {
+          state.wallet = "0x8f...21A9";
+          renderAll();
+        }
+        if (target.id === "disconnectWalletProfile") {
+          state.wallet = "";
+          renderAll();
+          logoutIfNoIdentity();
+        }
+        if (target.id === "addPasskey") showToast("Passkey added.");
+
+        if (target.id === "tokenSearch") $("#tokenResults").classList.toggle("open");
+        if (!target.closest(".select-wrap")) $("#tokenResults").classList.remove("open");
+        if (target.dataset.unlockToken) {
+          state.selectedUnlockToken = state.tokens.find((item) => item.symbol === target.dataset.unlockToken);
+          $("#tokenSearchLabel").textContent = `${state.selectedUnlockToken.name} ${state.selectedUnlockToken.symbol}`;
+          $("#tokenResults").classList.remove("open");
+          $("#confirmAnalysis").disabled = false;
+        }
         if (target.dataset.plan) {
           state.selectedPlan = target.dataset.plan;
-          document.querySelectorAll("#planSegments .segment").forEach((node) => node.classList.toggle("active", node.dataset.plan === state.selectedPlan));
-          renderPlan();
+          renderPlans();
         }
-
-        if (target.dataset.credits) {
-          state.selectedPackage = { credits: Number(target.dataset.credits), price: target.dataset.price };
-          document.querySelectorAll(".package[data-credits]").forEach((node) => node.classList.toggle("active", node === target));
-        }
-
-        if (target.id === "purchasePackage") {
-          const amount = state.selectedPackage.credits || 10;
-          state.credits += amount;
-          state.creditHistory.unshift({ date: "Jun 27 2026", type: "Purchase", detail: "Stripe", amount: `+${amount}`, balance: state.credits });
-          renderAll();
-          showToast(`${amount} credits added.`);
-        }
-
-        if (target.dataset.modalBuy) {
-          const amount = Number(target.dataset.modalBuy);
-          state.credits += amount;
-          state.creditHistory.unshift({ date: "Jun 27 2026", type: "Purchase", detail: "Stripe", amount: `+${amount}`, balance: state.credits });
-          closeModal();
-          renderAll();
-          showToast(`${amount} credits added.`);
-        }
-
-        if (target.id === "buyAnalysis") {
-          const meta = planMeta[state.selectedPlan];
-          if (state.credits < meta.cost) {
-            showToast("Not enough credits. Buy more credits first.");
-            return;
-          }
-          const raw = document.getElementById("unlockSearch").value.trim() || "SOL · Solana";
-          const [symbolPart, namePart] = raw.split("·").map((part) => part.trim());
-          const symbol = (symbolPart || "SOL").toUpperCase();
-          const name = namePart || symbol;
-          const exists = state.activeTokens.some((token) => token.symbol === symbol);
-          state.credits -= meta.cost;
+        if (target.id === "confirmAnalysis" && state.selectedUnlockToken) {
+          const exists = state.activeAnalyses.some((item) => item.symbol === state.selectedUnlockToken.symbol);
           if (!exists) {
-            state.activeTokens.push({ symbol, name, plan: state.selectedPlan, expires: "Jul 27 2026", status: "Active", color: "purple", initial: symbol.slice(0, 1) });
+            state.activeAnalyses.push({
+              ...state.selectedUnlockToken,
+              plan: state.selectedPlan,
+              expires: "Jul 29 2026"
+            });
           }
-          state.selectedToken = state.activeTokens.find((token) => token.symbol === symbol) || state.selectedToken;
-          state.creditHistory.unshift({ date: "Jun 27 2026", type: "Unlock", detail: `${symbol} ${state.selectedPlan}`, amount: `-${meta.cost}`, balance: state.credits });
+          state.selectedAnalysis = state.activeAnalyses.find((item) => item.symbol === state.selectedUnlockToken.symbol);
           renderAll();
-          showToast(`${symbol} analysis unlocked.`);
+          showToast("Analysis unlocked.");
         }
 
-        if (target.dataset.viewToken) {
-          state.selectedToken = state.activeTokens.find((token) => token.symbol === target.dataset.viewToken);
+        if (target.dataset.upgrade) {
+          const item = state.activeAnalyses.find((entry) => entry.symbol === target.dataset.upgrade);
+          const options = upgradeOptions(item.plan);
+          openModal(`
+            <h2>Upgrade Analysis</h2>
+            <div style="margin-top:14px;font-weight:700">${item.symbol} · ${item.name}</div>
+            <div class="muted" style="margin-top:8px">Current: ${item.plan}</div>
+            <div class="stack" style="margin-top:18px">
+              ${options.map((name) => `<div class="plan-card active"><h3>${name}</h3><div class="plan-copy">${planMeta[name].copy}<br>${planMeta[name].period}</div><div class="price">${planMeta[name].cost} Credits</div></div>`).join("")}
+            </div>
+            <div class="limit">Daily Limit: 2 Token Analysis (Include 1 Pro Analysis). Unlock, Upgrade, and Extend all count toward this limit.</div>
+            <div class="modal-actions"><button class="btn btn-light" type="button" data-close-modal>Cancel</button><button class="btn btn-pink" type="button" data-close-modal>Confirm</button></div>
+          `);
+        }
+
+        if (target.dataset.extend) {
+          const item = state.activeAnalyses.find((entry) => entry.symbol === target.dataset.extend);
+          openModal(`
+            <h2>Extend Analysis</h2>
+            <div style="margin-top:14px;font-weight:700">${item.symbol} · ${item.name}</div>
+            <div class="plan-card active" style="margin-top:18px"><h3>${item.plan}</h3><div class="plan-copy">${planMeta[item.plan].copy}<br>${planMeta[item.plan].period}</div><div class="price">${planMeta[item.plan].cost} Credits</div></div>
+            <div class="limit">Daily Limit: 2 Token Analysis (Include 1 Pro Analysis). Unlock, Upgrade, and Extend all count toward this limit.</div>
+            <div class="modal-actions"><button class="btn btn-light" type="button" data-close-modal>Cancel</button><button class="btn btn-pink" type="button" data-close-modal>Confirm</button></div>
+          `);
+        }
+
+        if (target.dataset.package) {
+          state.selectedPackage = Number(target.dataset.package);
+          $all("[data-package]").forEach((node) => node.classList.toggle("active", node === target));
+        }
+        if (target.dataset.payment) {
+          state.payment = target.dataset.payment;
+          $all("[data-payment]").forEach((node) => node.classList.toggle("active", node === target));
+        }
+        if (target.id === "purchaseCredits") {
+          if (state.payment === "Fiat") showToast("Redirecting to Stripe checkout.");
+          else showToast("Wallet interaction started for USDC.");
+        }
+
+        if (target.dataset.generateProof) {
+          if (!state.wallet) {
+            state.wallet = "0x8f...21A9";
+            showToast("Wallet connected.");
+          } else {
+            showToast("Proof generation started.");
+          }
           renderAll();
-          goToPage("overview");
         }
 
-        if (target.dataset.upgradeToken) {
-          showToast(`${target.dataset.upgradeToken} upgrade flow opened.`);
+        if (target.id === "confirmReferral") {
+          state.referralConfirmed = true;
+          renderReferral();
         }
-
-        if (target.dataset.refresh) {
-          showToast(`${state.exchanges[Number(target.dataset.refresh)].exchange} refreshed.`);
-        }
-
-        if (target.dataset.editExchange) {
-          openModal("editExchange", { index: Number(target.dataset.editExchange) });
-        }
-
-        if (target.dataset.proof) {
-          const index = Number(target.dataset.proof);
-          state.exchanges[index].proof = "Proof pending";
-          state.exchanges[index].proofClass = "pink";
-          renderExchanges();
-          showToast("TEE proof generation started.");
-        }
-
-        if (target.dataset.deleteExchange) {
-          const index = Number(target.dataset.deleteExchange);
-          const removed = state.exchanges.splice(index, 1)[0];
-          renderExchanges();
-          showToast(`${removed.exchange} deleted.`);
-        }
-
-        if (target.id === "saveExchange") {
-          const exchange = document.getElementById("exchangeSelect").value;
-          const account = document.getElementById("exchangeAccount").value || "acct-new";
-          state.exchanges.push({ exchange, account, api: "Working", proof: "Not generated", updated: "Jun 27 2026", proofClass: "" });
-          closeModal();
-          renderExchanges();
-          showToast(`${exchange} added.`);
-        }
-
-        if (target.id === "saveEditExchange") {
-          const index = Number(target.dataset.index);
-          state.exchanges[index].account = document.getElementById("editAccountName").value;
-          state.exchanges[index].updated = "Jun 27 2026";
-          closeModal();
-          renderExchanges();
-          showToast("API settings saved.");
-        }
+        if (target.dataset.copy) showToast("Copied.");
+        if (target.dataset.closeModal !== undefined) closeModal();
       });
 
-      document.getElementById("modalBackdrop").addEventListener("click", (event) => {
+      $("#modalBackdrop").addEventListener("click", (event) => {
         if (event.target.id === "modalBackdrop") closeModal();
       });
 
-      initAuth();
       renderAll();
     </script>
   </body>
