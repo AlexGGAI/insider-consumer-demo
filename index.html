@@ -393,7 +393,7 @@
         position: absolute;
         right: 0;
         top: 48px;
-        width: 260px;
+        width: 360px;
         padding: 8px;
         border-radius: 16px;
         background: white;
@@ -420,6 +420,52 @@
 
       .dropdown button:hover {
         background: var(--pink-soft);
+      }
+
+      .dropdown-search {
+        width: 100%;
+        height: 42px;
+        border: 0;
+        border-radius: 11px;
+        background: var(--soft);
+        box-shadow: inset 0 0 0 1px var(--line);
+        padding: 0 12px;
+        margin-bottom: 6px;
+        outline: none;
+        font-weight: 650;
+      }
+
+      .dropdown-search:focus {
+        box-shadow: inset 0 0 0 2px rgba(255, 45, 143, 0.42);
+      }
+
+      .dropdown-pager {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px solid var(--line);
+      }
+
+      .dropdown-pager button {
+        width: auto;
+        min-height: 32px;
+        padding: 0 12px;
+        border-radius: 999px;
+        background: var(--soft);
+      }
+
+      .dropdown-pager button:disabled {
+        color: rgba(29, 29, 31, 0.32);
+        cursor: default;
+      }
+
+      .dropdown-page-label {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
       }
 
       .content {
@@ -1317,6 +1363,8 @@
         wallet: "",
         credits: 900000,
         selectedAnalysis: null,
+        analysisSearch: "",
+        analysisPage: 0,
         selectedUnlockToken: null,
         selectedPlan: "Daily",
         selectedPackage: 100,
@@ -1325,7 +1373,12 @@
         activeAnalyses: [
           { symbol: "NEX", name: "Nexpace", plan: "Pro", expires: "Jul 27 2026", color: "pink", initial: "N" },
           { symbol: "BTC", name: "Bitcoin", plan: "Extended", expires: "Jul 06 2026", color: "orange", initial: "B" },
-          { symbol: "ETH", name: "Ethereum", plan: "Daily", expires: "Jun 28 2026", color: "gray", initial: "E" }
+          { symbol: "ETH", name: "Ethereum", plan: "Daily", expires: "Jun 28 2026", color: "gray", initial: "E" },
+          { symbol: "SOL", name: "Solana", plan: "Extended", expires: "Jul 12 2026", color: "purple", initial: "S" },
+          { symbol: "PENGU", name: "Pudgy Penguins", plan: "Daily", expires: "Jul 01 2026", color: "gray", initial: "P" },
+          { symbol: "SLX", name: "Solstice", plan: "Daily", expires: "Jul 03 2026", color: "pink", initial: "S" },
+          { symbol: "ARB", name: "Arbitrum", plan: "Extended", expires: "Jul 10 2026", color: "gray", initial: "A" },
+          { symbol: "OP", name: "Optimism", plan: "Daily", expires: "Jul 02 2026", color: "orange", initial: "O" }
         ],
         tokens: [
           { symbol: "BTC", name: "Bitcoin", color: "orange", initial: "B" },
@@ -1439,15 +1492,36 @@
       function renderAnalysisMenu() {
         const menu = $("#analysisMenu");
         if (!state.activeAnalyses.length) {
-          menu.innerHTML = `<button type="button" data-page-button="token">Go to My Token</button>`;
+          menu.innerHTML = `
+            <input class="dropdown-search" id="analysisSearchInput" placeholder="Search token" value="${state.analysisSearch}" />
+            <button type="button" data-page-button="token">Go to My Token</button>
+          `;
           return;
         }
-        menu.innerHTML = state.activeAnalyses.map((item) => `
+        const query = state.analysisSearch.trim().toLowerCase();
+        const filtered = state.activeAnalyses.filter((item) => {
+          return !query || item.name.toLowerCase().includes(query) || item.symbol.toLowerCase().includes(query);
+        });
+        const pageSize = 5;
+        const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
+        state.analysisPage = Math.min(state.analysisPage, pageCount - 1);
+        const start = state.analysisPage * pageSize;
+        const pageItems = filtered.slice(start, start + pageSize);
+        menu.innerHTML = `
+          <input class="dropdown-search" id="analysisSearchInput" placeholder="Search token" value="${state.analysisSearch}" />
+          ${pageItems.map((item) => `
           <button type="button" data-select-analysis="${item.symbol}">
             <span class="asset-logo ${item.color}">${item.initial}</span>
             <strong>${item.name}</strong>
+            <span class="code">${item.symbol}</span>
           </button>
-        `).join("");
+          `).join("")}
+          <div class="dropdown-pager">
+            <button type="button" data-analysis-page="prev" ${state.analysisPage === 0 ? "disabled" : ""}>Previous</button>
+            <span class="dropdown-page-label">${state.analysisPage + 1} / ${pageCount}</span>
+            <button type="button" data-analysis-page="next" ${state.analysisPage >= pageCount - 1 ? "disabled" : ""}>Next</button>
+          </div>
+        `;
       }
 
       function renderProfile() {
@@ -1585,6 +1659,12 @@
         if (target.dataset.pageButton) goToPage(target.dataset.pageButton);
 
         if (target.id === "analysisButton") $("#analysisMenu").classList.toggle("open");
+        if (target.dataset.analysisPage) {
+          if (target.dataset.analysisPage === "prev") state.analysisPage = Math.max(0, state.analysisPage - 1);
+          if (target.dataset.analysisPage === "next") state.analysisPage += 1;
+          renderAnalysisMenu();
+          $("#analysisMenu").classList.add("open");
+        }
         if (target.id === "walletButton") {
           if (state.wallet) $("#walletMenu").classList.toggle("open");
           else {
@@ -1714,6 +1794,18 @@
 
       $("#modalBackdrop").addEventListener("click", (event) => {
         if (event.target.id === "modalBackdrop") closeModal();
+      });
+
+      document.addEventListener("input", (event) => {
+        if (event.target.id === "analysisSearchInput") {
+          state.analysisSearch = event.target.value;
+          state.analysisPage = 0;
+          renderAnalysisMenu();
+          $("#analysisMenu").classList.add("open");
+          const input = $("#analysisSearchInput");
+          input.focus();
+          input.setSelectionRange(input.value.length, input.value.length);
+        }
       });
 
       renderAll();
