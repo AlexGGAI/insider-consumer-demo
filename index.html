@@ -571,6 +571,19 @@
         font-weight: 700;
       }
 
+      .token-result-search {
+        width: 100%;
+        height: 44px;
+        border: 0;
+        border-radius: 12px;
+        background: var(--soft);
+        box-shadow: inset 0 0 0 1px var(--line);
+        padding: 0 12px;
+        margin-bottom: 6px;
+        outline: none;
+        font-weight: 650;
+      }
+
       .result-row:hover,
       .result-row.active {
         background: #f0f3f7;
@@ -601,6 +614,8 @@
 
       .plan-card {
         min-height: 172px;
+        display: flex;
+        flex-direction: column;
       }
 
       .plan-card.active,
@@ -620,6 +635,7 @@
         color: var(--pink);
         font-size: 20px;
         font-weight: 800;
+        margin-top: auto;
       }
 
       .limit {
@@ -683,6 +699,18 @@
         background: white;
         box-shadow: inset 0 0 0 1px rgba(255, 45, 143, 0.72);
         font-weight: 750;
+      }
+
+      .small-btn.black {
+        color: white;
+        background: var(--text);
+        box-shadow: none;
+      }
+
+      .small-btn.pink {
+        color: white;
+        background: var(--pink);
+        box-shadow: none;
       }
 
       .small-btn:disabled,
@@ -849,17 +877,28 @@
 
       .ref-top {
         display: grid;
-        grid-template-columns: 1.35fr 0.85fr;
-        gap: 20px;
-        align-items: start;
+        gap: 12px;
       }
 
       .ref-row {
         display: grid;
-        grid-template-columns: 170px minmax(0, 1fr) 100px;
+        grid-template-columns: 170px minmax(0, 1fr) 44px 170px minmax(0, 0.85fr) 112px;
         gap: 10px;
         align-items: center;
         margin-bottom: 12px;
+      }
+
+      .ref-link-row {
+        display: grid;
+        grid-template-columns: 170px minmax(0, 1fr) 44px;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .icon-copy {
+        width: 44px;
+        min-width: 44px;
+        padding: 0;
       }
 
       .metrics {
@@ -1118,12 +1157,11 @@
           <section class="page" id="page-proof">
             <div class="page-head">
               <h1>API & TEE Proof</h1>
-              <button class="btn btn-pink" type="button" id="addExchange">Add Exchange</button>
             </div>
             <div class="surface pad">
               <table class="table">
                 <thead>
-                  <tr><th>Exchange</th><th>Account Name</th><th>API Status</th><th>TEE Proof</th><th>Last Updated</th><th>Actions</th></tr>
+                  <tr><th>Exchange</th><th>Account Name</th><th>API Status</th><th>TEE Proof Count</th><th>Actions</th></tr>
                 </thead>
                 <tbody id="exchangeRows"></tbody>
               </table>
@@ -1189,7 +1227,7 @@
                 <h2>Unlock Token Analysis</h2>
                 <div class="select-wrap">
                   <button class="select-field" type="button" id="tokenSearch">
-                    <span id="tokenSearchLabel">Select token by name, symbol, or address</span><span>⌄</span>
+                    <span id="tokenSearchLabel">Search name, symbol, or address</span><span>⌄</span>
                   </button>
                   <div class="token-results" id="tokenResults"></div>
                 </div>
@@ -1200,7 +1238,7 @@
               <div class="surface pad">
                 <h2>Active Token Analysis</h2>
                 <table class="table">
-                  <thead><tr><th>Token</th><th>Plan</th><th>Expires</th><th>Status</th><th>Action</th></tr></thead>
+                  <thead><tr><th>Token</th><th>Plan</th><th>Expires</th><th>Action</th></tr></thead>
                   <tbody id="analysisRows"></tbody>
                 </table>
               </div>
@@ -1212,15 +1250,15 @@
             <div class="stack">
               <div class="surface pad ref-top">
                 <div>
-                  <div class="ref-row"><strong>My Referral Code:</strong><div class="input" style="display:flex;align-items:center">GG2026</div><button class="profile-action" type="button" data-copy="GG2026">Copy</button></div>
-                  <div class="ref-row"><strong>Referral Link:</strong><div class="input" style="display:flex;align-items:center">https://insider.cash/signup?ref=GG2026</div><button class="profile-action" type="button" data-copy="link">Copy</button></div>
-                </div>
-                <div>
-                  <div style="font-weight: 750; margin-bottom: 12px">Who Refer me:</div>
-                  <div class="inline-field">
+                  <div class="ref-row">
+                    <strong>My Referral Code:</strong>
+                    <div class="input" style="display:flex;align-items:center">GG2026</div>
+                    <button class="profile-action icon-copy" type="button" data-copy="GG2026">⧉</button>
+                    <strong>Who Refer me:</strong>
                     <input class="input" id="whoReferMe" placeholder="Referral code" />
                     <button class="profile-action" type="button" id="confirmReferral">Confirm</button>
                   </div>
+                  <div class="ref-link-row"><strong>Referral Link:</strong><div class="input" style="display:flex;align-items:center">https://insider.cash/signup?ref=GG2026</div><button class="profile-action icon-copy" type="button" data-copy="link">⧉</button></div>
                 </div>
               </div>
               <div class="metrics">
@@ -1273,6 +1311,7 @@
                   <li>Points cannot be directly converted into credits.</li>
                   <li>Points are not used to buy analysis.</li>
                   <li>You can earn up to 100 points per day from privacy proofs.</li>
+                  <li>TEE proof points refresh each day at UTC time.</li>
                   <li>After reaching the daily proof point limit, you can still earn credits from privacy proofs.</li>
                 </ul>
                 <p>Points may be used for reputation levels, public profiles, leaderboards, and future rewards.</p>
@@ -1281,35 +1320,32 @@
                 <h2>Token Analysis Plans</h2>
                 <p>Use credits to unlock token analysis in <strong>My Token</strong>.</p>
                 <table class="table"><thead><tr><th>Plan</th><th>Cost</th><th>Access Period</th><th>Analysis Coverage</th></tr></thead><tbody>
-                  <tr><td>Daily</td><td>10 credits</td><td>1 day + 1 extra day</td><td>Recent 3-day analysis</td></tr>
-                  <tr><td>Extended</td><td>100 credits</td><td>2 weeks + 1 extra day</td><td>Recent 3-day analysis</td></tr>
-                  <tr><td>Pro</td><td>1000 credits</td><td>1 month + 1 extra day</td><td>Past 1 month + next 1 month analysis</td></tr>
+                  <tr><td>Basic</td><td>10 credits</td><td>Past 3 days and Future 1 day</td><td>Token analysis</td></tr>
+                  <tr><td>Plus</td><td>100 credits</td><td>Past 3 days and Future 2 weeks</td><td>Token analysis</td></tr>
+                  <tr><td>Pro</td><td>1000 credits</td><td>Past 1 month and Future 1 month</td><td>Token analysis</td></tr>
                 </tbody></table>
                 <h3>Analysis Rules</h3>
                 <ul>
                   <li>You can unlock up to 2 tokens per day.</li>
-                  <li>Daily, Extended, and Pro each count as 1 token unlock.</li>
+                  <li>Basic, Plus, and Pro each count as 1 token unlock.</li>
                   <li>There is no daily credit spending limit.</li>
                   <li>Token analysis is not permanent.</li>
-                  <li>After access expires, you need to unlock it again.</li>
                   <li>Analysis may take up to 12 hours to become available.</li>
-                  <li>We add 1 extra day to every plan so you always have enough time to view it.</li>
                 </ul>
               </div>
               <div class="surface pad">
                 <h2>Upgrades</h2>
                 <p>You can upgrade a token plan at any time.</p>
                 <table class="table"><thead><tr><th>Upgrade</th><th>Cost</th></tr></thead><tbody>
-                  <tr><td>Daily to Extended</td><td>100 credits</td></tr>
-                  <tr><td>Daily to Pro</td><td>1000 credits</td></tr>
-                  <tr><td>Extended to Pro</td><td>1000 credits</td></tr>
+                  <tr><td>Basic to Plus</td><td>100 credits</td></tr>
+                  <tr><td>Basic to Pro</td><td>1000 credits</td></tr>
+                  <tr><td>Plus to Pro</td><td>1000 credits</td></tr>
                 </tbody></table>
                 <h3>Upgrade rules:</h3>
                 <ul>
                   <li>Upgrades start a new access period.</li>
                   <li>Previously spent credits are not refunded.</li>
                   <li>Previously spent credits are not deducted from the upgrade price.</li>
-                  <li>Upgraded plans also receive the extra 1-day access buffer.</li>
                 </ul>
               </div>
               <div class="surface pad">
@@ -1339,6 +1375,7 @@
                 <ul><li>Passkey</li></ul>
                 <p>Your profile can include your email, wallet, and passkey settings.</p>
                 <p>Signup rewards are given once per account. Adding a new login method later does not create another signup reward.</p>
+                <p>Exchange account status, TEE proof counts, and TEE proof point limits refresh automatically after the UTC day changes.</p>
               </div>
             </div>
           </section>
@@ -1366,37 +1403,46 @@
         analysisSearch: "",
         analysisPage: 0,
         selectedUnlockToken: null,
-        selectedPlan: "Daily",
+        tokenQuery: "",
+        selectedPlan: "Basic",
         selectedPackage: 100,
         payment: "Fiat",
         referralConfirmed: false,
         activeAnalyses: [
           { symbol: "NEX", name: "Nexpace", plan: "Pro", expires: "Jul 27 2026", color: "pink", initial: "N" },
-          { symbol: "BTC", name: "Bitcoin", plan: "Extended", expires: "Jul 06 2026", color: "orange", initial: "B" },
-          { symbol: "ETH", name: "Ethereum", plan: "Daily", expires: "Jun 28 2026", color: "gray", initial: "E" },
-          { symbol: "SOL", name: "Solana", plan: "Extended", expires: "Jul 12 2026", color: "purple", initial: "S" },
-          { symbol: "PENGU", name: "Pudgy Penguins", plan: "Daily", expires: "Jul 01 2026", color: "gray", initial: "P" },
-          { symbol: "SLX", name: "Solstice", plan: "Daily", expires: "Jul 03 2026", color: "pink", initial: "S" },
-          { symbol: "ARB", name: "Arbitrum", plan: "Extended", expires: "Jul 10 2026", color: "gray", initial: "A" },
-          { symbol: "OP", name: "Optimism", plan: "Daily", expires: "Jul 02 2026", color: "orange", initial: "O" }
+          { symbol: "BTC", name: "Bitcoin", plan: "Plus", expires: "Jul 06 2026", color: "orange", initial: "B" },
+          { symbol: "ETH", name: "Ethereum", plan: "Basic", expires: "Jun 28 2026", color: "gray", initial: "E" },
+          { symbol: "SOL", name: "Solana", plan: "Plus", expires: "Jul 12 2026", color: "purple", initial: "S" },
+          { symbol: "PENGU", name: "Pudgy Penguins", plan: "Basic", expires: "Jul 01 2026", color: "gray", initial: "P" },
+          { symbol: "SLX", name: "Solstice", plan: "Basic", expires: "Jul 03 2026", color: "pink", initial: "S" },
+          { symbol: "ARB", name: "Arbitrum", plan: "Plus", expires: "Jul 10 2026", color: "gray", initial: "A" },
+          { symbol: "OP", name: "Optimism", plan: "Basic", expires: "Jul 02 2026", color: "orange", initial: "O" }
         ],
         tokens: [
-          { symbol: "BTC", name: "Bitcoin", color: "orange", initial: "B" },
-          { symbol: "SLX", name: "Solstice", color: "pink", initial: "S" },
-          { symbol: "PENGU", name: "Pudgy Penguins", color: "gray", initial: "P" },
-          { symbol: "SOL", name: "Solana", color: "purple", initial: "S" }
+          { symbol: "BTC", name: "Bitcoin", project: "Bitcoin", address: "0xbtc0001", color: "orange", initial: "B" },
+          { symbol: "SLX", name: "Solstice", project: "Solstice", address: "0xslx0002", color: "pink", initial: "S" },
+          { symbol: "PENGU", name: "Pudgy Penguins", project: "Pudgy Penguins", address: "0xpengu003", color: "gray", initial: "P" },
+          { symbol: "SOL", name: "Solana", project: "Solana", address: "0xsol0004", color: "purple", initial: "S" },
+          { symbol: "ARB", name: "Arbitrum", project: "Arbitrum", address: "0xarb0005", color: "gray", initial: "A" }
         ],
         exchanges: [
-          { exchange: "Coinbase", account: "acct-01", api: "Working", proof: "Onchain verified", updated: "May 19 2026" },
-          { exchange: "Kraken", account: "acct-02", api: "Working", proof: "Not generated", updated: "May 19 2026" },
-          { exchange: "Bitget", account: "acct-03", api: "Passphrase required", proof: "Wallet required", updated: "May 25 2026" }
+          { exchange: "Binance", account: "acct-01", api: "Work", proofCount: 4 },
+          { exchange: "OKX", account: "acct-02", api: "pending", proofCount: 1 },
+          { exchange: "Bybit", account: "acct-03", api: "", proofCount: 0 },
+          { exchange: "Coinbase", account: "acct-04", api: "Work", proofCount: 6 },
+          { exchange: "Upbit", account: "acct-05", api: "Failed", proofCount: 0 },
+          { exchange: "Bitget", account: "acct-06", api: "Work", proofCount: 3 },
+          { exchange: "KuCoin", account: "acct-07", api: "pending", proofCount: 2 },
+          { exchange: "Gate.io", account: "acct-08", api: "", proofCount: 0 },
+          { exchange: "Kraken", account: "acct-09", api: "Work", proofCount: 5 },
+          { exchange: "HTX", account: "acct-10", api: "Failed", proofCount: 0 }
         ]
       };
 
       const planMeta = {
-        Daily: { cost: 10, copy: "Recent 3-day analysis", period: "1 day + 1 extra day" },
-        Extended: { cost: 100, copy: "Recent 3-day analysis", period: "2 weeks + 1 extra day" },
-        Pro: { cost: 1000, copy: "Past 1 month + next 1 month analysis", period: "1 month + 1 extra day" }
+        Basic: { cost: 10, copy: "Past 3 days and Future 1 day" },
+        Plus: { cost: 100, copy: "Past 3 days and Future 2 weeks" },
+        Pro: { cost: 1000, copy: "Past 1 month and Future 1 month" }
       };
 
       const creditHistory = [
@@ -1552,20 +1598,27 @@
         $("#plans").innerHTML = Object.entries(planMeta).map(([name, meta]) => `
           <button class="plan-card ${state.selectedPlan === name ? "active" : ""}" type="button" data-plan="${name}">
             <h3>${name}</h3>
-            <div class="plan-copy">${meta.copy}<br>${meta.period}</div>
-            <div class="price">${meta.cost} Credits</div>
+            <div class="plan-copy">${meta.copy}</div>
+            <div class="price">${meta.cost} credits</div>
           </button>
         `).join("");
       }
 
       function renderTokenResults() {
-        $("#tokenResults").innerHTML = state.tokens.map((item, index) => `
+        const query = state.tokenQuery.trim().toLowerCase();
+        const filtered = state.tokens.filter((item) => {
+          return !query || item.name.toLowerCase().includes(query) || item.symbol.toLowerCase().includes(query) || item.project.toLowerCase().includes(query) || item.address.toLowerCase().includes(query);
+        });
+        $("#tokenResults").innerHTML = `
+          <input class="token-result-search" id="tokenQueryInput" value="${state.tokenQuery}" placeholder="Search Token Name, Token Address, Project Name" />
+          ${filtered.map((item, index) => `
           <button class="result-row ${index === 0 ? "active" : ""}" type="button" data-unlock-token="${item.symbol}">
             <span class="asset-logo ${item.color}">${item.initial}</span>
             <span>${item.name}</span>
             <span class="code">${item.symbol}</span>
           </button>
-        `).join("");
+          `).join("")}
+        `;
       }
 
       function renderAnalysisRows() {
@@ -1574,8 +1627,7 @@
             <td><div class="token-cell"><span class="asset-logo ${item.color}">${item.initial}</span><div><strong>${item.symbol}</strong><div class="muted">${item.name}</div></div></div></td>
             <td>${item.plan}</td>
             <td>${item.expires}</td>
-            <td><span class="tag">Active</span></td>
-            <td><div class="action-row"><button class="small-btn" type="button" data-upgrade="${item.symbol}">Upgrade</button><button class="small-btn" type="button" data-extend="${item.symbol}">Extend</button></div></td>
+            <td><div class="action-row">${item.plan === "Pro" ? "" : `<button class="small-btn" type="button" data-upgrade="${item.symbol}">Upgrade</button>`}<button class="small-btn" type="button" data-extend="${item.symbol}">Extend</button></div></td>
           </tr>
         `).join("");
       }
@@ -1599,9 +1651,8 @@
             <td><strong>${row.exchange}</strong></td>
             <td>${row.account}</td>
             <td>${row.api}</td>
-            <td>${row.proof}</td>
-            <td>${row.updated}</td>
-            <td><div class="action-row"><button class="small-btn" type="button">Refresh</button><button class="small-btn" type="button">Edit API</button><button class="small-btn" type="button" data-generate-proof="${index}">Generate Proof</button><button class="small-btn" type="button">Delete</button></div></td>
+            <td>${row.proofCount}</td>
+            <td><div class="action-row"><button class="small-btn" type="button">Refresh</button><button class="small-btn black" type="button">Edit</button><button class="small-btn black" type="button" data-clean-exchange="${index}">Clean</button><button class="small-btn pink" type="button" data-generate-proof="${index}">Generate Proof</button></div></td>
           </tr>
         `).join("");
       }
@@ -1638,8 +1689,8 @@
       }
 
       function upgradeOptions(plan) {
-        if (plan === "Daily") return ["Extended", "Pro"];
-        if (plan === "Extended") return ["Pro"];
+        if (plan === "Basic") return ["Plus", "Pro"];
+        if (plan === "Plus") return ["Pro"];
         return [];
       }
 
@@ -1709,7 +1760,10 @@
         }
         if (target.id === "addPasskey") showToast("Passkey added.");
 
-        if (target.id === "tokenSearch") $("#tokenResults").classList.toggle("open");
+        if (target.id === "tokenSearch") {
+          renderTokenResults();
+          $("#tokenResults").classList.toggle("open");
+        }
         if (!target.closest(".select-wrap")) $("#tokenResults").classList.remove("open");
         if (target.dataset.unlockToken) {
           state.selectedUnlockToken = state.tokens.find((item) => item.symbol === target.dataset.unlockToken);
@@ -1743,7 +1797,7 @@
             <div style="margin-top:14px;font-weight:700">${item.symbol} · ${item.name}</div>
             <div class="muted" style="margin-top:8px">Current: ${item.plan}</div>
             <div class="stack" style="margin-top:18px">
-              ${options.map((name) => `<div class="plan-card active"><h3>${name}</h3><div class="plan-copy">${planMeta[name].copy}<br>${planMeta[name].period}</div><div class="price">${planMeta[name].cost} Credits</div></div>`).join("")}
+              ${options.map((name) => `<div class="plan-card active"><h3>${name}</h3><div class="plan-copy">${planMeta[name].copy}</div><div class="price">${planMeta[name].cost} credits</div></div>`).join("")}
             </div>
             <div class="limit">Daily Limit: 2 Token Analysis (Include 1 Pro Analysis). Unlock, Upgrade, and Extend all count toward this limit.</div>
             <div class="modal-actions"><button class="btn btn-light" type="button" data-close-modal>Cancel</button><button class="btn btn-pink" type="button" data-close-modal>Confirm</button></div>
@@ -1755,7 +1809,7 @@
           openModal(`
             <h2>Extend Analysis</h2>
             <div style="margin-top:14px;font-weight:700">${item.symbol} · ${item.name}</div>
-            <div class="plan-card active" style="margin-top:18px"><h3>${item.plan}</h3><div class="plan-copy">${planMeta[item.plan].copy}<br>${planMeta[item.plan].period}</div><div class="price">${planMeta[item.plan].cost} Credits</div></div>
+            <div class="plan-card active" style="margin-top:18px"><h3>${item.plan}</h3><div class="plan-copy">${planMeta[item.plan].copy}</div><div class="price">${planMeta[item.plan].cost} credits</div></div>
             <div class="limit">Daily Limit: 2 Token Analysis (Include 1 Pro Analysis). Unlock, Upgrade, and Extend all count toward this limit.</div>
             <div class="modal-actions"><button class="btn btn-light" type="button" data-close-modal>Cancel</button><button class="btn btn-pink" type="button" data-close-modal>Confirm</button></div>
           `);
@@ -1779,8 +1833,15 @@
             state.wallet = "0x8f...21A9";
             showToast("Wallet connected.");
           } else {
+            state.exchanges[Number(target.dataset.generateProof)].proofCount += 1;
             showToast("Proof generation started.");
           }
+          renderAll();
+        }
+
+        if (target.dataset.cleanExchange) {
+          state.exchanges[Number(target.dataset.cleanExchange)].api = "";
+          state.exchanges[Number(target.dataset.cleanExchange)].proofCount = 0;
           renderAll();
         }
 
@@ -1803,6 +1864,14 @@
           renderAnalysisMenu();
           $("#analysisMenu").classList.add("open");
           const input = $("#analysisSearchInput");
+          input.focus();
+          input.setSelectionRange(input.value.length, input.value.length);
+        }
+        if (event.target.id === "tokenQueryInput") {
+          state.tokenQuery = event.target.value;
+          renderTokenResults();
+          $("#tokenResults").classList.add("open");
+          const input = $("#tokenQueryInput");
           input.focus();
           input.setSelectionRange(input.value.length, input.value.length);
         }
