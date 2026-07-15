@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:," />
     <title>Insider Cash Consumer Demo</title>
     <style>
       :root {
@@ -543,7 +544,7 @@
 
       .token-results {
         position: absolute;
-        inset: 60px 0 auto 0;
+        inset: 58px 0 auto 0;
         z-index: 5;
         padding: 8px;
         border-radius: 16px;
@@ -622,6 +623,183 @@
       .package.active {
         background: var(--pink-soft);
         box-shadow: inset 0 0 0 2px rgba(255, 45, 143, 0.45);
+      }
+
+      .tokens-workspace {
+        background: white;
+        border-radius: 18px;
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.05);
+        padding: 32px;
+      }
+
+      .tokens-intro {
+        margin: 10px 0 34px;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.5;
+      }
+
+      .token-add {
+        margin-bottom: 30px;
+      }
+
+      .token-add h3 {
+        font-size: 20px;
+      }
+
+      .token-add-copy {
+        margin: 10px 0 14px;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .token-search-field {
+        width: 100%;
+        height: 54px;
+        border: 0;
+        border-radius: 13px;
+        background: white;
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.15);
+        display: grid;
+        grid-template-columns: 24px 1fr;
+        align-items: center;
+        gap: 10px;
+        padding: 0 16px;
+      }
+
+      .token-search-field:focus-within {
+        box-shadow: inset 0 0 0 2px rgba(255, 45, 143, 0.45);
+      }
+
+      .token-search-icon {
+        color: rgba(29, 29, 31, 0.52);
+        font-size: 22px;
+      }
+
+      .token-search-input {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        outline: none;
+        background: transparent;
+        color: var(--text);
+        font-size: 17px;
+        font-weight: 600;
+      }
+
+      .token-table-wrap {
+        overflow: hidden;
+        border-radius: 16px;
+        box-shadow: inset 0 0 0 1px var(--line), 0 4px 14px rgba(0, 0, 0, 0.04);
+      }
+
+      .token-table-wrap .table th {
+        background: #fcfcfd;
+        text-transform: uppercase;
+        letter-spacing: 0;
+      }
+
+      .token-table-wrap .table td {
+        height: 82px;
+      }
+
+      .token-plan {
+        display: inline-flex;
+        min-width: 68px;
+        height: 28px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: var(--pink-soft);
+        color: var(--pink-dark);
+        font-size: 13px;
+        font-weight: 750;
+      }
+
+      .token-actions {
+        justify-content: flex-end;
+      }
+
+      .token-actions .small-btn {
+        min-width: 92px;
+      }
+
+      .token-pagination {
+        align-items: center;
+      }
+
+      .page-count {
+        min-width: 48px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .modal-token-name {
+        margin-top: 16px;
+        font-size: 18px;
+        font-weight: 750;
+      }
+
+      .modal-current {
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 16px;
+      }
+
+      .modal-plans {
+        display: grid;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      .modal-plan {
+        width: 100%;
+        min-height: 116px;
+        border: 0;
+        border-radius: 14px;
+        background: white;
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.14);
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;
+        gap: 8px 16px;
+        padding: 18px;
+        text-align: left;
+      }
+
+      .modal-plan:hover {
+        box-shadow: inset 0 0 0 1px rgba(255, 45, 143, 0.55);
+      }
+
+      .modal-plan.active {
+        background: var(--pink-soft);
+        box-shadow: inset 0 0 0 2px rgba(255, 45, 143, 0.5);
+      }
+
+      .modal-plan .plan-copy {
+        margin: 0;
+      }
+
+      .modal-plan .price {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: center;
+        white-space: nowrap;
+      }
+
+      .modal-summary {
+        min-height: 52px;
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.5;
+      }
+
+      .modal-summary strong {
+        color: var(--text);
       }
 
       .plan-copy {
@@ -714,6 +892,7 @@
       }
 
       .small-btn:disabled,
+      .btn:disabled,
       .primary-wide:disabled {
         color: rgba(29, 29, 31, 0.42);
         background: rgba(29, 29, 31, 0.08);
@@ -875,6 +1054,11 @@
         background: var(--pink);
       }
 
+      .page-btn:disabled {
+        color: rgba(29, 29, 31, 0.28);
+        cursor: default;
+      }
+
       .ref-top {
         display: grid;
         gap: 12px;
@@ -1011,6 +1195,18 @@
 
         .profile-row {
           grid-template-columns: 1fr;
+        }
+
+        .tokens-workspace {
+          padding: 22px;
+        }
+
+        .token-table-wrap {
+          overflow-x: auto;
+        }
+
+        .token-table-wrap .table {
+          min-width: 760px;
         }
       }
     </style>
@@ -1221,27 +1417,27 @@
           </section>
 
           <section class="page" id="page-token">
-            <div class="page-head"><h1>My Analysis</h1></div>
-            <div class="grid-2">
-              <div class="surface pad">
-                <h2>Unlock Token Analysis</h2>
-                <div class="select-wrap">
-                  <button class="select-field" type="button" id="tokenSearch">
-                    <span id="tokenSearchLabel">Search name, symbol, or address</span><span>⌄</span>
-                  </button>
+            <div class="tokens-workspace">
+              <h1 style="font-size:44px">Tokens</h1>
+              <p class="tokens-intro">You can unlock up to 2 tokens per day (UTC), including upgrading and renewing.</p>
+              <div class="token-add">
+                <h3>Add a token</h3>
+                <p class="token-add-copy">Your data will be available at 8:00 AM UTC the next day. You'll receive one extra day of access to cover the waiting period.</p>
+                <div class="select-wrap" style="margin-top:0">
+                  <label class="token-search-field" for="tokenQueryInput">
+                    <span class="token-search-icon">⌕</span>
+                    <input class="token-search-input" id="tokenQueryInput" placeholder="Search by token name, project name, symbol, or address" autocomplete="off" />
+                  </label>
                   <div class="token-results" id="tokenResults"></div>
                 </div>
-                <div class="plans" id="plans"></div>
-                <div class="limit">Daily Limit: 2 Token Analysis (Include 1 Pro Analysis). Unlock, Upgrade, and Extend all count toward this limit.</div>
-                <button class="primary-wide" type="button" id="confirmAnalysis" disabled>Confirm</button>
               </div>
-              <div class="surface pad">
-                <h2>Active Token Analysis</h2>
+              <div class="token-table-wrap">
                 <table class="table">
-                  <thead><tr><th>Token</th><th>Plan</th><th>Expires</th><th>Action</th></tr></thead>
+                  <thead><tr><th>Token</th><th>Plan</th><th>Expiry Date</th><th style="text-align:right">Actions</th></tr></thead>
                   <tbody id="analysisRows"></tbody>
                 </table>
               </div>
+              <div class="pagination token-pagination" id="tokenPagination"></div>
             </div>
           </section>
 
@@ -1320,17 +1516,18 @@
                 <h2>Token Analysis Plans</h2>
                 <p>Use credits to unlock token analysis in <strong>My Token</strong>.</p>
                 <table class="table"><thead><tr><th>Plan</th><th>Cost</th><th>Access Period</th><th>Analysis Coverage</th></tr></thead><tbody>
-                  <tr><td>Basic</td><td>10 credits</td><td>Past 3 days and Future 1 day</td><td>Token analysis</td></tr>
-                  <tr><td>Plus</td><td>100 credits</td><td>Past 3 days and Future 2 weeks</td><td>Token analysis</td></tr>
+                  <tr><td>Basic</td><td>10 credits</td><td>Past 7 days</td><td>Token analysis</td></tr>
+                  <tr><td>Plus</td><td>100 credits</td><td>Past 7 days</td><td>Token analysis</td></tr>
                   <tr><td>Pro</td><td>1000 credits</td><td>Past 1 month and Future 1 month</td><td>Token analysis</td></tr>
                 </tbody></table>
                 <h3>Analysis Rules</h3>
                 <ul>
-                  <li>You can unlock up to 2 tokens per day.</li>
+                  <li>You can unlock up to 2 tokens per day (UTC), including upgrading and renewing.</li>
                   <li>Basic, Plus, and Pro each count as 1 token unlock.</li>
                   <li>There is no daily credit spending limit.</li>
                   <li>Token analysis is not permanent.</li>
-                  <li>Analysis may take up to 12 hours to become available.</li>
+                  <li>Data is available at 8:00 AM UTC the next day with one extra day of access.</li>
+                  <li>Renewing adds 30 days of access for 20 credits.</li>
                 </ul>
               </div>
               <div class="surface pad">
@@ -1402,28 +1599,42 @@
         selectedAnalysis: null,
         analysisSearch: "",
         analysisPage: 0,
-        selectedUnlockToken: null,
         tokenQuery: "",
-        selectedPlan: "Basic",
+        tokenListPage: 0,
+        modalToken: null,
+        modalPlan: null,
         selectedPackage: 100,
         payment: "Fiat",
         referralConfirmed: false,
         activeAnalyses: [
-          { symbol: "NEX", name: "Nexpace", plan: "Pro", expires: "Jul 27 2026", color: "pink", initial: "N" },
-          { symbol: "BTC", name: "Bitcoin", plan: "Plus", expires: "Jul 06 2026", color: "orange", initial: "B" },
-          { symbol: "ETH", name: "Ethereum", plan: "Basic", expires: "Jun 28 2026", color: "gray", initial: "E" },
-          { symbol: "SOL", name: "Solana", plan: "Plus", expires: "Jul 12 2026", color: "purple", initial: "S" },
-          { symbol: "PENGU", name: "Pudgy Penguins", plan: "Basic", expires: "Jul 01 2026", color: "gray", initial: "P" },
-          { symbol: "SLX", name: "Solstice", plan: "Basic", expires: "Jul 03 2026", color: "pink", initial: "S" },
-          { symbol: "ARB", name: "Arbitrum", plan: "Plus", expires: "Jul 10 2026", color: "gray", initial: "A" },
-          { symbol: "OP", name: "Optimism", plan: "Basic", expires: "Jul 02 2026", color: "orange", initial: "O" }
+          { symbol: "SLX", name: "Solstice", plan: "Basic", expires: "Aug 12, 2026", renewsTo: "Sep 11, 2026", color: "pink", initial: "S" },
+          { symbol: "BTC", name: "Bitcoin", plan: "Plus", expires: "Aug 13, 2026", renewsTo: "Sep 12, 2026", color: "orange", initial: "B" },
+          { symbol: "ETH", name: "Ethereum", plan: "Basic", expires: "Aug 15, 2026", renewsTo: "Sep 14, 2026", color: "gray", initial: "E" },
+          { symbol: "SOL", name: "Solana", plan: "Pro", expires: "Aug 18, 2026", renewsTo: "Sep 17, 2026", color: "purple", initial: "S" },
+          { symbol: "PENGU", name: "Pudgy Penguins", plan: "Basic", expires: "Aug 20, 2026", renewsTo: "Sep 19, 2026", color: "gray", initial: "P" },
+          { symbol: "ARB", name: "Arbitrum", plan: "Plus", expires: "Aug 22, 2026", renewsTo: "Sep 21, 2026", color: "gray", initial: "A" },
+          { symbol: "OP", name: "Optimism", plan: "Basic", expires: "Aug 24, 2026", renewsTo: "Sep 23, 2026", color: "orange", initial: "O" },
+          { symbol: "LINK", name: "Chainlink", plan: "Pro", expires: "Aug 26, 2026", renewsTo: "Sep 25, 2026", color: "gray", initial: "L" },
+          { symbol: "AVAX", name: "Avalanche", plan: "Plus", expires: "Aug 28, 2026", renewsTo: "Sep 27, 2026", color: "orange", initial: "A" },
+          { symbol: "SUI", name: "Sui", plan: "Basic", expires: "Aug 29, 2026", renewsTo: "Sep 28, 2026", color: "gray", initial: "S" },
+          { symbol: "AAVE", name: "Aave", plan: "Plus", expires: "Sep 01, 2026", renewsTo: "Oct 01, 2026", color: "purple", initial: "A" },
+          { symbol: "UNI", name: "Uniswap", plan: "Pro", expires: "Sep 03, 2026", renewsTo: "Oct 03, 2026", color: "pink", initial: "U" },
+          { symbol: "TIA", name: "Celestia", plan: "Basic", expires: "Sep 05, 2026", renewsTo: "Oct 05, 2026", color: "purple", initial: "T" }
         ],
         tokens: [
-          { symbol: "BTC", name: "Bitcoin", project: "Bitcoin", address: "0xbtc0001", color: "orange", initial: "B" },
-          { symbol: "SLX", name: "Solstice", project: "Solstice", address: "0xslx0002", color: "pink", initial: "S" },
-          { symbol: "PENGU", name: "Pudgy Penguins", project: "Pudgy Penguins", address: "0xpengu003", color: "gray", initial: "P" },
-          { symbol: "SOL", name: "Solana", project: "Solana", address: "0xsol0004", color: "purple", initial: "S" },
-          { symbol: "ARB", name: "Arbitrum", project: "Arbitrum", address: "0xarb0005", color: "gray", initial: "A" }
+          { symbol: "DOGE", name: "Dogecoin", project: "Dogecoin", address: "0xdoge0001", renewsTo: "Sep 11, 2026", color: "orange", initial: "D" },
+          { symbol: "NEAR", name: "NEAR Protocol", project: "NEAR", address: "0xnear0002", renewsTo: "Sep 11, 2026", color: "gray", initial: "N" },
+          { symbol: "ONDO", name: "Ondo", project: "Ondo Finance", address: "0xondo0003", renewsTo: "Sep 11, 2026", color: "pink", initial: "O" },
+          { symbol: "ENA", name: "Ethena", project: "Ethena", address: "0xena0004", renewsTo: "Sep 11, 2026", color: "purple", initial: "E" },
+          { symbol: "JUP", name: "Jupiter", project: "Jupiter Exchange", address: "0xjup0005", renewsTo: "Sep 11, 2026", color: "orange", initial: "J" },
+          { symbol: "SEI", name: "Sei", project: "Sei Network", address: "0xsei0006", renewsTo: "Sep 11, 2026", color: "pink", initial: "S" },
+          { symbol: "WIF", name: "dogwifhat", project: "dogwifhat", address: "0xwif0007", renewsTo: "Sep 11, 2026", color: "gray", initial: "W" },
+          { symbol: "APT", name: "Aptos", project: "Aptos Labs", address: "0xapt0008", renewsTo: "Sep 11, 2026", color: "purple", initial: "A" },
+          { symbol: "MKR", name: "Maker", project: "Sky", address: "0xmkr0009", renewsTo: "Sep 11, 2026", color: "gray", initial: "M" },
+          { symbol: "LDO", name: "Lido DAO", project: "Lido", address: "0xldo0010", renewsTo: "Sep 11, 2026", color: "pink", initial: "L" },
+          { symbol: "INJ", name: "Injective", project: "Injective", address: "0xinj0011", renewsTo: "Sep 11, 2026", color: "purple", initial: "I" },
+          { symbol: "RUNE", name: "THORChain", project: "THORChain", address: "0xrune012", renewsTo: "Sep 11, 2026", color: "orange", initial: "R" },
+          { symbol: "FIL", name: "Filecoin", project: "Filecoin", address: "0xfil0013", renewsTo: "Sep 11, 2026", color: "gray", initial: "F" }
         ],
         exchanges: [
           { exchange: "Binance", account: "acct-01", api: "Work", proofCount: 4 },
@@ -1440,8 +1651,8 @@
       };
 
       const planMeta = {
-        Basic: { cost: 10, copy: "Past 3 days and Future 1 day" },
-        Plus: { cost: 100, copy: "Past 3 days and Future 2 weeks" },
+        Basic: { cost: 10, copy: "Past 7 days" },
+        Plus: { cost: 100, copy: "Past 7 days" },
         Pro: { cost: 1000, copy: "Past 1 month and Future 1 month" }
       };
 
@@ -1594,42 +1805,104 @@
         $("#disconnectWalletProfile").classList.toggle("hidden", !state.wallet);
       }
 
-      function renderPlans() {
-        $("#plans").innerHTML = Object.entries(planMeta).map(([name, meta]) => `
-          <button class="plan-card ${state.selectedPlan === name ? "active" : ""}" type="button" data-plan="${name}">
-            <h3>${name}</h3>
-            <div class="plan-copy">${meta.copy}</div>
-            <div class="price">${meta.cost} credits</div>
-          </button>
-        `).join("");
-      }
-
       function renderTokenResults() {
         const query = state.tokenQuery.trim().toLowerCase();
         const filtered = state.tokens.filter((item) => {
           return !query || item.name.toLowerCase().includes(query) || item.symbol.toLowerCase().includes(query) || item.project.toLowerCase().includes(query) || item.address.toLowerCase().includes(query);
         });
         $("#tokenResults").innerHTML = `
-          <input class="token-result-search" id="tokenQueryInput" value="${state.tokenQuery}" placeholder="Search Token Name, Token Address, Project Name" />
-          ${filtered.map((item, index) => `
-          <button class="result-row ${index === 0 ? "active" : ""}" type="button" data-unlock-token="${item.symbol}">
+          ${filtered.slice(0, 5).map((item) => `
+          <button class="result-row" type="button" data-add-token="${item.symbol}">
             <span class="asset-logo ${item.color}">${item.initial}</span>
             <span>${item.name}</span>
             <span class="code">${item.symbol}</span>
           </button>
-          `).join("")}
+          `).join("") || `<div class="muted" style="padding:16px">No tokens found</div>`}
         `;
       }
 
       function renderAnalysisRows() {
-        $("#analysisRows").innerHTML = state.activeAnalyses.map((item) => `
+        const pageSize = 5;
+        const pageCount = Math.ceil(state.activeAnalyses.length / pageSize);
+        state.tokenListPage = Math.min(state.tokenListPage, pageCount - 1);
+        const rows = state.activeAnalyses.slice(state.tokenListPage * pageSize, state.tokenListPage * pageSize + pageSize);
+        $("#analysisRows").innerHTML = rows.map((item) => `
           <tr>
             <td><div class="token-cell"><span class="asset-logo ${item.color}">${item.initial}</span><div><strong>${item.symbol}</strong><div class="muted">${item.name}</div></div></div></td>
-            <td>${item.plan}</td>
+            <td><span class="token-plan">${item.plan}</span></td>
             <td>${item.expires}</td>
-            <td><div class="action-row">${item.plan === "Pro" ? "" : `<button class="small-btn" type="button" data-upgrade="${item.symbol}">Upgrade</button>`}<button class="small-btn" type="button" data-extend="${item.symbol}">Extend</button></div></td>
+            <td><div class="action-row token-actions"><button class="small-btn" type="button" data-upgrade="${item.symbol}" ${item.plan === "Pro" ? "disabled" : ""}>Upgrade</button><button class="small-btn pink" type="button" data-renew="${item.symbol}">Renew</button></div></td>
           </tr>
         `).join("");
+        $("#tokenPagination").innerHTML = `
+          <button class="page-btn" type="button" data-token-page="prev" aria-label="Previous page" ${state.tokenListPage === 0 ? "disabled" : ""}>‹</button>
+          <span class="page-count">${state.tokenListPage + 1} / ${pageCount}</span>
+          <button class="page-btn" type="button" data-token-page="next" aria-label="Next page" ${state.tokenListPage >= pageCount - 1 ? "disabled" : ""}>›</button>
+        `;
+      }
+
+      function modalPlanButton(name) {
+        const meta = planMeta[name];
+        return `
+          <button class="modal-plan ${state.modalPlan === name ? "active" : ""}" type="button" data-modal-plan="${name}">
+            <h3>${name}</h3>
+            <div class="plan-copy">${meta.copy}</div>
+            <div class="price">${meta.cost} credits</div>
+          </button>
+        `;
+      }
+
+      function renderUpgradeModal() {
+        const item = state.activeAnalyses.find((entry) => entry.symbol === state.modalToken);
+        const options = upgradeOptions(item.plan);
+        const selected = state.modalPlan;
+        $("#modal").innerHTML = `
+          <h2>Upgrade Analysis</h2>
+          <div class="modal-token-name">${item.symbol} · ${item.name}</div>
+          <div class="modal-current">Current: ${item.plan} · Expiry Date: ${item.expires}</div>
+          <div class="modal-plans">${options.map(modalPlanButton).join("")}</div>
+          <div class="modal-summary">${selected ? `This upgrades ${item.symbol} to <strong>${selected}</strong> for <strong>${planMeta[selected].cost} credits</strong>. New expiry: <strong>${item.renewsTo}</strong>.` : ""}</div>
+          <div class="modal-actions"><button class="btn btn-light" type="button" data-close-modal>Cancel</button><button class="btn btn-pink" type="button" data-confirm-upgrade ${selected ? "" : "disabled"}>Confirm</button></div>
+        `;
+      }
+
+      function openUpgradeModal(symbol) {
+        state.modalToken = symbol;
+        state.modalPlan = null;
+        $("#modalBackdrop").classList.add("open");
+        renderUpgradeModal();
+      }
+
+      function openRenewModal(symbol) {
+        const item = state.activeAnalyses.find((entry) => entry.symbol === symbol);
+        state.modalToken = symbol;
+        openModal(`
+          <h2>Renew Analysis</h2>
+          <div class="modal-token-name">${item.symbol} · ${item.name}</div>
+          <div class="modal-current">${item.plan} · Expiry Date: ${item.expires}</div>
+          <div class="modal-summary" style="min-height:0;margin-top:24px">This renews ${item.symbol} for another 30 days for <strong>20 credits</strong>. New expiry: <strong>${item.renewsTo}</strong>.</div>
+          <div class="modal-actions"><button class="btn btn-light" type="button" data-close-modal>Cancel</button><button class="btn btn-pink" type="button" data-confirm-renew>Confirm</button></div>
+        `);
+      }
+
+      function renderAddTokenModal() {
+        const item = state.tokens.find((entry) => entry.symbol === state.modalToken);
+        const selected = state.modalPlan;
+        $("#modal").innerHTML = `
+          <h2>Add Token Analysis</h2>
+          <div class="modal-token-name">${item.symbol} · ${item.name}</div>
+          <div class="modal-plans">${Object.keys(planMeta).map(modalPlanButton).join("")}</div>
+          <div class="modal-summary">${selected ? `This unlocks ${item.symbol} with the <strong>${selected}</strong> plan for <strong>${planMeta[selected].cost} credits</strong>. Expiry Date: <strong>${item.renewsTo || "Sep 11, 2026"}</strong>.` : ""}</div>
+          <div class="modal-actions"><button class="btn btn-light" type="button" data-close-modal>Cancel</button><button class="btn btn-pink" type="button" data-confirm-add ${selected ? "" : "disabled"}>Confirm</button></div>
+        `;
+      }
+
+      function openAddTokenModal(symbol) {
+        state.modalToken = symbol;
+        state.modalPlan = null;
+        $("#tokenResults").classList.remove("open");
+        $("#modalBackdrop").classList.add("open");
+        renderAddTokenModal();
       }
 
       function renderCredits() {
@@ -1670,7 +1943,6 @@
         renderTopbar();
         renderAnalysisMenu();
         renderProfile();
-        renderPlans();
         renderTokenResults();
         renderAnalysisRows();
         renderCredits();
@@ -1697,6 +1969,7 @@
       document.addEventListener("click", (event) => {
         const target = event.target.closest("button");
         if (!target) {
+          if (!event.target.closest(".select-wrap")) $("#tokenResults").classList.remove("open");
           if (!event.target.closest(".top-control")) {
             $("#analysisMenu").classList.remove("open");
             $("#walletMenu").classList.remove("open");
@@ -1760,59 +2033,46 @@
         }
         if (target.id === "addPasskey") showToast("Passkey added.");
 
-        if (target.id === "tokenSearch") {
-          renderTokenResults();
-          $("#tokenResults").classList.toggle("open");
-        }
         if (!target.closest(".select-wrap")) $("#tokenResults").classList.remove("open");
-        if (target.dataset.unlockToken) {
-          state.selectedUnlockToken = state.tokens.find((item) => item.symbol === target.dataset.unlockToken);
-          $("#tokenSearchLabel").textContent = `${state.selectedUnlockToken.name} ${state.selectedUnlockToken.symbol}`;
-          $("#tokenResults").classList.remove("open");
-          $("#confirmAnalysis").disabled = false;
+        if (target.dataset.addToken) openAddTokenModal(target.dataset.addToken);
+        if (target.dataset.tokenPage) {
+          const pageCount = Math.ceil(state.activeAnalyses.length / 5);
+          if (target.dataset.tokenPage === "prev") state.tokenListPage = Math.max(0, state.tokenListPage - 1);
+          if (target.dataset.tokenPage === "next") state.tokenListPage = Math.min(pageCount - 1, state.tokenListPage + 1);
+          renderAnalysisRows();
         }
-        if (target.dataset.plan) {
-          state.selectedPlan = target.dataset.plan;
-          renderPlans();
+        if (target.dataset.upgrade) openUpgradeModal(target.dataset.upgrade);
+        if (target.dataset.renew) openRenewModal(target.dataset.renew);
+        if (target.dataset.modalPlan) {
+          state.modalPlan = target.dataset.modalPlan;
+          if ($("[data-confirm-upgrade]")) renderUpgradeModal();
+          else renderAddTokenModal();
         }
-        if (target.id === "confirmAnalysis" && state.selectedUnlockToken) {
-          const exists = state.activeAnalyses.some((item) => item.symbol === state.selectedUnlockToken.symbol);
-          if (!exists) {
-            state.activeAnalyses.push({
-              ...state.selectedUnlockToken,
-              plan: state.selectedPlan,
-              expires: "Jul 29 2026"
-            });
-          }
-          state.selectedAnalysis = state.activeAnalyses.find((item) => item.symbol === state.selectedUnlockToken.symbol);
+        if (target.dataset.confirmUpgrade !== undefined) {
+          const item = state.activeAnalyses.find((entry) => entry.symbol === state.modalToken);
+          item.plan = state.modalPlan;
+          item.expires = item.renewsTo;
+          closeModal();
           renderAll();
-          showToast("Analysis unlocked.");
+          showToast("Analysis upgraded.");
         }
-
-        if (target.dataset.upgrade) {
-          const item = state.activeAnalyses.find((entry) => entry.symbol === target.dataset.upgrade);
-          const options = upgradeOptions(item.plan);
-          openModal(`
-            <h2>Upgrade Analysis</h2>
-            <div style="margin-top:14px;font-weight:700">${item.symbol} · ${item.name}</div>
-            <div class="muted" style="margin-top:8px">Current: ${item.plan}</div>
-            <div class="stack" style="margin-top:18px">
-              ${options.map((name) => `<div class="plan-card active"><h3>${name}</h3><div class="plan-copy">${planMeta[name].copy}</div><div class="price">${planMeta[name].cost} credits</div></div>`).join("")}
-            </div>
-            <div class="limit">Daily Limit: 2 Token Analysis (Include 1 Pro Analysis). Unlock, Upgrade, and Extend all count toward this limit.</div>
-            <div class="modal-actions"><button class="btn btn-light" type="button" data-close-modal>Cancel</button><button class="btn btn-pink" type="button" data-close-modal>Confirm</button></div>
-          `);
+        if (target.dataset.confirmRenew !== undefined) {
+          const item = state.activeAnalyses.find((entry) => entry.symbol === state.modalToken);
+          item.expires = item.renewsTo;
+          closeModal();
+          renderAll();
+          showToast("Analysis renewed.");
         }
-
-        if (target.dataset.extend) {
-          const item = state.activeAnalyses.find((entry) => entry.symbol === target.dataset.extend);
-          openModal(`
-            <h2>Extend Analysis</h2>
-            <div style="margin-top:14px;font-weight:700">${item.symbol} · ${item.name}</div>
-            <div class="plan-card active" style="margin-top:18px"><h3>${item.plan}</h3><div class="plan-copy">${planMeta[item.plan].copy}</div><div class="price">${planMeta[item.plan].cost} credits</div></div>
-            <div class="limit">Daily Limit: 2 Token Analysis (Include 1 Pro Analysis). Unlock, Upgrade, and Extend all count toward this limit.</div>
-            <div class="modal-actions"><button class="btn btn-light" type="button" data-close-modal>Cancel</button><button class="btn btn-pink" type="button" data-close-modal>Confirm</button></div>
-          `);
+        if (target.dataset.confirmAdd !== undefined) {
+          const item = state.tokens.find((entry) => entry.symbol === state.modalToken);
+          if (!state.activeAnalyses.some((entry) => entry.symbol === item.symbol)) {
+            state.activeAnalyses.push({ ...item, plan: state.modalPlan, expires: "Aug 16, 2026", renewsTo: "Sep 15, 2026" });
+          }
+          closeModal();
+          state.tokenQuery = "";
+          $("#tokenQueryInput").value = "";
+          renderAll();
+          showToast("Token analysis added.");
         }
 
         if (target.dataset.package) {
@@ -1874,6 +2134,13 @@
           const input = $("#tokenQueryInput");
           input.focus();
           input.setSelectionRange(input.value.length, input.value.length);
+        }
+      });
+
+      document.addEventListener("focusin", (event) => {
+        if (event.target.id === "tokenQueryInput") {
+          renderTokenResults();
+          $("#tokenResults").classList.add("open");
         }
       });
 
