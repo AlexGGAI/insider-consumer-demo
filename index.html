@@ -1000,37 +1000,104 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 12px;
-        margin: 22px 0;
+        margin: 18px 0;
       }
 
       .package {
-        min-height: 120px;
+        min-height: 118px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
 
       .package strong {
         display: block;
         font-size: 21px;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
+      }
+
+      .package strong span {
+        color: var(--muted);
+        font-size: 15px;
+        font-weight: 650;
+      }
+
+      .package > span {
+        color: var(--muted);
+        font-size: 16px;
+        font-weight: 650;
+      }
+
+      .credit-rate {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 17px;
+        font-weight: 650;
+      }
+
+      .payment-toggle {
+        width: max-content;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+        margin-top: 20px;
+        padding: 4px;
+        border-radius: 999px;
+        background: rgba(29, 29, 31, 0.06);
       }
 
       .payment-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        display: block;
       }
 
       .payment-pill {
-        height: 40px;
-        min-width: 92px;
+        height: 42px;
+        min-width: 104px;
         border: 0;
         border-radius: 999px;
-        background: rgba(29, 29, 31, 0.07);
+        background: transparent;
         font-weight: 750;
       }
 
       .payment-pill.active {
         color: white;
         background: var(--pink);
+      }
+
+      .custom-eth-field {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 8px;
+        height: 40px;
+        margin-top: 2px;
+        padding: 0 12px;
+        border-radius: 10px;
+        background: white;
+        box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.14);
+      }
+
+      .custom-eth-field:focus-within {
+        box-shadow: inset 0 0 0 2px rgba(255, 45, 143, 0.45);
+      }
+
+      .custom-eth-field input {
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        outline: none;
+        background: transparent;
+        font-weight: 700;
+      }
+
+      .custom-eth-field span {
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .credit-purchase-button {
+        margin-top: 2px;
       }
 
       .pagination {
@@ -1373,19 +1440,26 @@
               </div>
               <div class="surface pad">
                 <h2>Buy Credits</h2>
+                <div class="credit-rate">1 ETH = 2,000 Credits</div>
+                <div class="payment-toggle">
+                  <button class="payment-pill active" type="button" data-payment="Crypto">Crypto</button>
+                  <button class="payment-pill" type="button" data-payment="Fiat">Fiat</button>
+                </div>
                 <div class="packages" id="creditPackages">
-                  <button class="package" type="button" data-package="10"><strong>10 Credits</strong><span>$10</span></button>
-                  <button class="package active" type="button" data-package="100"><strong>100 Credits</strong><span>$100</span></button>
-                  <button class="package" type="button" data-package="1000"><strong>1000 Credits</strong><span>$1000</span></button>
-                  <div class="package">
-                    <strong>Custom</strong>
-                    <input class="input" id="customCredits" placeholder="Enter amount" />
+                  <button class="package" type="button" data-eth="0.01"><strong>20 <span>credits</span></strong><span>0.01 ETH</span></button>
+                  <button class="package active" type="button" data-eth="0.05"><strong>100 <span>credits</span></strong><span>0.05 ETH</span></button>
+                  <button class="package" type="button" data-eth="0.25"><strong>500 <span>credits</span></strong><span>0.25 ETH</span></button>
+                  <div class="package" id="customEthCard">
+                    <strong>Customize ETH</strong>
+                    <label class="custom-eth-field" for="customEth">
+                      <input id="customEth" type="number" min="0.01" step="0.01" placeholder="Min. 0.01" />
+                      <span>ETH</span>
+                    </label>
+                    <span id="customCreditPreview"></span>
                   </div>
                 </div>
                 <div class="payment-row">
-                  <button class="payment-pill active" type="button" data-payment="Fiat">Fiat</button>
-                  <button class="payment-pill" type="button" data-payment="Crypto">Crypto</button>
-                  <button class="btn btn-pink" type="button" id="purchaseCredits">Purchase</button>
+                  <button class="primary-wide credit-purchase-button" type="button" id="purchaseCredits">Buy 100 credits · 0.05 ETH</button>
                 </div>
               </div>
               <div class="surface pad">
@@ -1479,7 +1553,7 @@
                   <tr><td>Invite a new user who signs up</td><td>+5 each</td></tr>
                   <tr><td>Invited user connects their first exchange</td><td>+20 each</td></tr>
                   <tr><td>Invited user creates their first privacy proof</td><td>+10 each</td></tr>
-                  <tr><td>Buy credits</td><td>1 USDC = 1 credit</td></tr>
+                  <tr><td>Buy credits</td><td>1 ETH = 2,000 credits</td></tr>
                 </tbody></table>
                 <h3>Credit Rules</h3>
                 <ul>
@@ -1603,8 +1677,9 @@
         tokenListPage: 0,
         modalToken: null,
         modalPlan: null,
-        selectedPackage: 100,
-        payment: "Fiat",
+        selectedEth: 0.05,
+        customEth: "",
+        payment: "Crypto",
         referralConfirmed: false,
         activeAnalyses: [
           { symbol: "SLX", name: "Solstice", plan: "Basic", expires: "Aug 12, 2026", renewsTo: "Sep 11, 2026", color: "pink", initial: "S" },
@@ -1910,6 +1985,27 @@
         $("#creditRows").innerHTML = creditHistory.map((row) => `
           <tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>
         `).join("");
+        renderCreditPurchase();
+      }
+
+      function renderCreditPurchase() {
+        const isCustom = state.selectedEth === "custom";
+        const eth = isCustom ? Number(state.customEth) : Number(state.selectedEth);
+        const valid = Number.isFinite(eth) && eth >= 0.01;
+        const credits = valid ? Math.round(eth * 2000) : 0;
+
+        $all("[data-eth]").forEach((node) => {
+          node.classList.toggle("active", !isCustom && Number(node.dataset.eth) === eth);
+        });
+        $("#customEthCard").classList.toggle("active", isCustom);
+        $("#customCreditPreview").textContent = isCustom && valid ? `${formatCredits(credits)} credits` : "";
+        $all("[data-payment]").forEach((node) => node.classList.toggle("active", node.dataset.payment === state.payment));
+
+        const button = $("#purchaseCredits");
+        button.disabled = !valid;
+        if (!valid) button.textContent = "Buy Credits";
+        else if (state.payment === "Crypto") button.textContent = `Buy ${formatCredits(credits)} credits · ${eth} ETH`;
+        else button.textContent = `Continue to Stripe · ${formatCredits(credits)} credits`;
       }
 
       function renderPoints() {
@@ -2075,17 +2171,19 @@
           showToast("Token analysis added.");
         }
 
-        if (target.dataset.package) {
-          state.selectedPackage = Number(target.dataset.package);
-          $all("[data-package]").forEach((node) => node.classList.toggle("active", node === target));
+        if (target.dataset.eth) {
+          state.selectedEth = Number(target.dataset.eth);
+          state.customEth = "";
+          $("#customEth").value = "";
+          renderCreditPurchase();
         }
         if (target.dataset.payment) {
           state.payment = target.dataset.payment;
-          $all("[data-payment]").forEach((node) => node.classList.toggle("active", node === target));
+          renderCreditPurchase();
         }
         if (target.id === "purchaseCredits") {
           if (state.payment === "Fiat") showToast("Redirecting to Stripe checkout.");
-          else showToast("Wallet interaction started for USDC.");
+          else showToast("Wallet interaction started for ETH.");
         }
 
         if (target.dataset.generateProof) {
@@ -2135,12 +2233,21 @@
           input.focus();
           input.setSelectionRange(input.value.length, input.value.length);
         }
+        if (event.target.id === "customEth") {
+          state.selectedEth = "custom";
+          state.customEth = event.target.value;
+          renderCreditPurchase();
+        }
       });
 
       document.addEventListener("focusin", (event) => {
         if (event.target.id === "tokenQueryInput") {
           renderTokenResults();
           $("#tokenResults").classList.add("open");
+        }
+        if (event.target.id === "customEth") {
+          state.selectedEth = "custom";
+          renderCreditPurchase();
         }
       });
 
